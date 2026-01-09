@@ -1,27 +1,62 @@
 import { Link } from "react-router-dom";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
-import { Person } from "@/data/mockData";
 import { InfluenceBar } from "./InfluenceBar";
+import type { Person as MockPerson } from "@/data/mockData";
+import type { Person as DbPerson } from "@/lib/api/influence-graph";
+
+type PersonLike = MockPerson | DbPerson;
 
 interface PersonCardProps {
-  person: Person;
+  person: PersonLike;
   rank: number;
 }
 
-export const PersonCard = ({ person, rank }: PersonCardProps) => {
-  const TrendIcon = person.trend === 'up' ? TrendingUp : person.trend === 'down' ? TrendingDown : Minus;
-  const trendColor = person.trend === 'up' ? 'text-success' : person.trend === 'down' ? 'text-destructive' : 'text-muted-foreground';
+function isDbPerson(p: PersonLike): p is DbPerson {
+  return typeof (p as DbPerson).influence_score === 'number';
+}
 
-  const categoryColors = {
+export const PersonCard = ({ person, rank }: PersonCardProps) => {
+  const id = isDbPerson(person) ? person.id : String(person.id);
+
+  const name = person.name;
+  const avatar = isDbPerson(person)
+    ? (person.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(person.name)}`)
+    : person.avatarUrl;
+
+  const subtitle = isDbPerson(person)
+    ? `${person.role}${person.company ? ` at ${person.company}` : ''}`
+    : `${person.title}, ${person.organization}`;
+
+  const score = isDbPerson(person) ? person.influence_score : person.influenceScore;
+
+  // Trend is only in mock data; for DB people we infer a simple trend for UI.
+  const trend = isDbPerson(person)
+    ? (score > 80 ? 'up' : score < 50 ? 'down' : 'stable')
+    : person.trend;
+
+  const trendValue = isDbPerson(person)
+    ? Math.round((score - 65) * 10) / 10
+    : person.trendValue;
+
+  const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
+  const trendColor = trend === 'up' ? 'text-success' : trend === 'down' ? 'text-destructive' : 'text-muted-foreground';
+
+  const categoryOrIndustry = isDbPerson(person) ? person.industry : person.category;
+
+  const categoryColors: Record<string, string> = {
     politics: 'bg-node-purple/20 text-node-purple',
     business: 'bg-node-blue/20 text-node-blue',
     tech: 'bg-primary/20 text-primary',
     finance: 'bg-success/20 text-success',
+    Politics: 'bg-node-purple/20 text-node-purple',
+    Business: 'bg-node-blue/20 text-node-blue',
+    Technology: 'bg-primary/20 text-primary',
+    Finance: 'bg-success/20 text-success',
   };
 
   return (
     <Link
-      to={`/person/${person.id}`}
+      to={`/person/${id}`}
       className="glass-card p-4 hover:border-primary/30 transition-all duration-300 group block"
     >
       <div className="flex items-start gap-4">
@@ -31,8 +66,8 @@ export const PersonCard = ({ person, rank }: PersonCardProps) => {
           </span>
           <div className="relative">
             <img
-              src={person.avatarUrl}
-              alt={person.name}
+              src={avatar}
+              alt={name}
               className="w-12 h-12 rounded-full border-2 border-border group-hover:border-primary/50 transition-colors"
             />
             <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center">
@@ -44,24 +79,22 @@ export const PersonCard = ({ person, rank }: PersonCardProps) => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">
-              {person.name}
+              {name}
             </h3>
-            <span className={`text-xs px-2 py-0.5 rounded-full ${categoryColors[person.category]}`}>
-              {person.category}
+            <span className={`text-xs px-2 py-0.5 rounded-full ${categoryColors[categoryOrIndustry] || 'bg-muted text-muted-foreground'}`}>
+              {categoryOrIndustry}
             </span>
           </div>
-          <p className="text-sm text-muted-foreground truncate">
-            {person.title}, {person.organization}
-          </p>
+          <p className="text-sm text-muted-foreground truncate">{subtitle}</p>
           <div className="mt-2">
-            <InfluenceBar score={person.influenceScore} size="sm" />
+            <InfluenceBar score={score} size="sm" />
           </div>
         </div>
 
         <div className="text-right">
           <div className={`font-mono text-sm ${trendColor}`}>
-            {person.trend === 'up' ? '+' : person.trend === 'down' ? '' : ''}
-            {person.trendValue}%
+            {trend === 'up' ? '+' : trend === 'down' ? '' : ''}
+            {trendValue}%
           </div>
           <div className="text-xs text-muted-foreground">24h</div>
         </div>
