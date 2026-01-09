@@ -589,10 +589,16 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Check for force reseed parameter
-    const { force } = await req.json().catch(() => ({ force: false }));
+    // Parse body - handle both JSON and empty body
+    let force = false;
+    try {
+      const body = await req.json();
+      force = body?.force === true;
+    } catch {
+      // Empty body or invalid JSON, default to force=false
+    }
 
-    console.log('Seeding database with expanded data and permanent relationships...');
+    console.log('Seeding database with expanded data, force:', force);
 
     // Check if data already exists
     const { count: peopleCount } = await supabase
