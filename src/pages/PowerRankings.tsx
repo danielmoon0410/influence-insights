@@ -20,12 +20,12 @@ const PowerRankings = () => {
   const [sectorFilter, setSectorFilter] = useState<SectorFilter>('all');
   
   const { data: people, isLoading: peopleLoading, refetch: refetchPeople } = usePeople({ 
-    limit: 100,
+    limit: 500,
     industry: industryFilter === 'all' ? undefined : industryFilter,
   });
 
   const { data: assets, isLoading: assetsLoading, refetch: refetchAssets } = useAssets({
-    limit: 100,
+    limit: 500,
     sector: sectorFilter === 'all' ? undefined : sectorFilter,
   });
   
