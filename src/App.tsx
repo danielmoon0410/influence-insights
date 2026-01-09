@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import Index from "./pages/Index";
 import PowerRankings from "./pages/PowerRankings";
 import PersonDetail from "./pages/PersonDetail";
+import AssetDetail from "./pages/AssetDetail";
 import News from "./pages/News";
 import Markets from "./pages/Markets";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/rankings" element={<PowerRankings />} />
           <Route path="/person/:id" element={<PersonDetail />} />
+          <Route path="/asset/:id" element={<AssetDetail />} />
           <Route path="/news" element={<News />} />
           <Route path="/markets" element={<Markets />} />
           <Route path="*" element={<NotFound />} />
