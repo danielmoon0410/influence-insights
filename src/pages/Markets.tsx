@@ -3,20 +3,18 @@ import { TradingViewWidget, TradingViewAdvancedChart, TradingViewTicker } from "
 import { marketIndices, topCompanies } from "@/data/mockData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Top companies ordered by market cap (as of 2024)
+// Top 10 companies ordered by market cap (Jan 2025)
 const topCompaniesByMarketCap = [
-  { symbol: 'AAPL', name: 'Apple Inc.', exchange: 'NASDAQ', marketCap: '3.4T' },
-  { symbol: 'MSFT', name: 'Microsoft', exchange: 'NASDAQ', marketCap: '3.1T' },
-  { symbol: 'NVDA', name: 'NVIDIA', exchange: 'NASDAQ', marketCap: '2.9T' },
-  { symbol: 'GOOGL', name: 'Alphabet', exchange: 'NASDAQ', marketCap: '2.1T' },
-  { symbol: 'AMZN', name: 'Amazon', exchange: 'NASDAQ', marketCap: '2.0T' },
-  { symbol: 'META', name: 'Meta Platforms', exchange: 'NASDAQ', marketCap: '1.4T' },
-  { symbol: 'BRK.B', name: 'Berkshire Hathaway', exchange: 'NYSE', marketCap: '900B' },
-  { symbol: 'TSLA', name: 'Tesla', exchange: 'NASDAQ', marketCap: '800B' },
-  { symbol: 'JPM', name: 'JPMorgan Chase', exchange: 'NYSE', marketCap: '600B' },
-  { symbol: 'V', name: 'Visa Inc.', exchange: 'NYSE', marketCap: '550B' },
-  { symbol: 'WMT', name: 'Walmart', exchange: 'NYSE', marketCap: '530B' },
-  { symbol: 'JNJ', name: 'Johnson & Johnson', exchange: 'NYSE', marketCap: '380B' },
+  { symbol: 'AAPL', name: 'Apple Inc.', exchange: 'NASDAQ', marketCap: '3.68T' },
+  { symbol: 'NVDA', name: 'NVIDIA', exchange: 'NASDAQ', marketCap: '3.36T' },
+  { symbol: 'MSFT', name: 'Microsoft', exchange: 'NASDAQ', marketCap: '3.13T' },
+  { symbol: 'GOOGL', name: 'Alphabet', exchange: 'NASDAQ', marketCap: '2.35T' },
+  { symbol: 'AMZN', name: 'Amazon', exchange: 'NASDAQ', marketCap: '2.34T' },
+  { symbol: 'META', name: 'Meta Platforms', exchange: 'NASDAQ', marketCap: '1.49T' },
+  { symbol: 'TSLA', name: 'Tesla', exchange: 'NASDAQ', marketCap: '1.34T' },
+  { symbol: 'BRK.B', name: 'Berkshire Hathaway', exchange: 'NYSE', marketCap: '1.01T' },
+  { symbol: 'AVGO', name: 'Broadcom', exchange: 'NASDAQ', marketCap: '1.01T' },
+  { symbol: 'TSM', name: 'TSMC', exchange: 'NYSE', marketCap: '0.98T' },
 ];
 
 const Markets = () => {
