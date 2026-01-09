@@ -45,6 +45,27 @@ serve(async (req) => {
 
     console.log('Computing influence scores with time decay...');
 
+    // Preserve seeded “permanent” CEO-company relationships.
+    // Heuristic: seeded links have very high correlation and large co_mention_count.
+    const permanentKeys = new Set<string>();
+    {
+      const { data: permanentRels, error: permanentErr } = await supabase
+        .from('person_asset_relationships')
+        .select('person_id, asset_id')
+        .gte('correlation_score', 0.9)
+        .gte('co_mention_count', 50);
+
+      if (permanentErr) {
+        console.warn('Could not load permanent relationships (continuing):', permanentErr.message);
+      } else {
+        for (const rel of permanentRels || []) {
+          permanentKeys.add(`${rel.person_id}:${rel.asset_id}`);
+        }
+      }
+
+      console.log('Loaded permanent relationships:', permanentKeys.size);
+    }
+
     // Get all people
     const { data: people, error: peopleError } = await supabase
       .from('people')
@@ -281,11 +302,14 @@ serve(async (req) => {
     const maxWeight = Math.max(...allWeights, 1);
 
     for (const [key, data] of coMentions) {
+      // Never overwrite seeded permanent relationships
+      if (permanentKeys.has(key)) continue;
+
       const [personId, assetId] = key.split(':');
-      
+
       // Normalize correlation score (0-1)
       const correlationScore = Math.min(data.weightedCount / maxWeight, 1);
-      
+
       // Influence strength (0-100)
       const personScore = personScores.get(personId) || 50;
       const influenceStrength = Math.round(correlationScore * personScore);
