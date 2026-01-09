@@ -6,107 +6,111 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// 60+ influential people/entities
+// 70+ influential people with their primary asset symbols
 const seedPeople = [
   // Tech Leaders
-  { name: 'Elon Musk', role: 'CEO', company: 'Tesla', industry: 'Technology' },
-  { name: 'Tim Cook', role: 'CEO', company: 'Apple', industry: 'Technology' },
-  { name: 'Satya Nadella', role: 'CEO', company: 'Microsoft', industry: 'Technology' },
-  { name: 'Sundar Pichai', role: 'CEO', company: 'Alphabet', industry: 'Technology' },
-  { name: 'Jensen Huang', role: 'CEO', company: 'NVIDIA', industry: 'Technology' },
-  { name: 'Mark Zuckerberg', role: 'CEO', company: 'Meta', industry: 'Technology' },
-  { name: 'Jeff Bezos', role: 'Founder', company: 'Amazon', industry: 'Technology' },
-  { name: 'Sam Altman', role: 'CEO', company: 'OpenAI', industry: 'Technology' },
-  { name: 'Dario Amodei', role: 'CEO', company: 'Anthropic', industry: 'Technology' },
-  { name: 'Andy Jassy', role: 'CEO', company: 'Amazon', industry: 'Technology' },
-  { name: 'Lisa Su', role: 'CEO', company: 'AMD', industry: 'Technology' },
-  { name: 'Pat Gelsinger', role: 'CEO', company: 'Intel', industry: 'Technology' },
-  { name: 'Reed Hastings', role: 'Co-CEO', company: 'Netflix', industry: 'Technology' },
-  { name: 'Brian Chesky', role: 'CEO', company: 'Airbnb', industry: 'Technology' },
-  { name: 'Dara Khosrowshahi', role: 'CEO', company: 'Uber', industry: 'Technology' },
-  { name: 'Daniel Ek', role: 'CEO', company: 'Spotify', industry: 'Technology' },
-  { name: 'Shantanu Narayen', role: 'CEO', company: 'Adobe', industry: 'Technology' },
-  { name: 'Arvind Krishna', role: 'CEO', company: 'IBM', industry: 'Technology' },
-  { name: 'Marc Benioff', role: 'CEO', company: 'Salesforce', industry: 'Technology' },
-  { name: 'Frank Slootman', role: 'CEO', company: 'Snowflake', industry: 'Technology' },
-  { name: 'Demis Hassabis', role: 'CEO', company: 'DeepMind', industry: 'Technology' },
-  { name: 'Michael Saylor', role: 'Chairman', company: 'MicroStrategy', industry: 'Technology' },
-  { name: 'Tobi Lutke', role: 'CEO', company: 'Shopify', industry: 'Technology' },
-  { name: 'Eric Yuan', role: 'CEO', company: 'Zoom', industry: 'Technology' },
-  { name: 'Dylan Field', role: 'CEO', company: 'Figma', industry: 'Technology' },
-  { name: 'Stewart Butterfield', role: 'CEO', company: 'Slack', industry: 'Technology' },
-  { name: 'Jack Dorsey', role: 'Founder', company: 'Block', industry: 'Technology' },
-  { name: 'Evan Spiegel', role: 'CEO', company: 'Snap', industry: 'Technology' },
-  { name: 'Su Hua', role: 'CEO', company: 'Kuaishou', industry: 'Technology' },
-  { name: 'Zhang Yiming', role: 'Founder', company: 'ByteDance', industry: 'Technology' },
+  { name: 'Elon Musk', role: 'CEO', company: 'Tesla', industry: 'Technology', primaryAssets: ['TSLA'], relatedSectors: ['Consumer Discretionary', 'Technology'] },
+  { name: 'Tim Cook', role: 'CEO', company: 'Apple', industry: 'Technology', primaryAssets: ['AAPL'], relatedSectors: ['Technology'] },
+  { name: 'Satya Nadella', role: 'CEO', company: 'Microsoft', industry: 'Technology', primaryAssets: ['MSFT'], relatedSectors: ['Technology'] },
+  { name: 'Sundar Pichai', role: 'CEO', company: 'Alphabet', industry: 'Technology', primaryAssets: ['GOOGL', 'GOOG'], relatedSectors: ['Communication Services', 'Technology'] },
+  { name: 'Jensen Huang', role: 'CEO', company: 'NVIDIA', industry: 'Technology', primaryAssets: ['NVDA'], relatedSectors: ['Technology'] },
+  { name: 'Mark Zuckerberg', role: 'CEO', company: 'Meta', industry: 'Technology', primaryAssets: ['META'], relatedSectors: ['Communication Services', 'Technology'] },
+  { name: 'Jeff Bezos', role: 'Founder', company: 'Amazon', industry: 'Technology', primaryAssets: ['AMZN'], relatedSectors: ['Consumer Discretionary', 'Technology'] },
+  { name: 'Sam Altman', role: 'CEO', company: 'OpenAI', industry: 'Technology', primaryAssets: ['MSFT'], relatedSectors: ['Technology'] },
+  { name: 'Dario Amodei', role: 'CEO', company: 'Anthropic', industry: 'Technology', primaryAssets: ['GOOGL', 'AMZN'], relatedSectors: ['Technology'] },
+  { name: 'Andy Jassy', role: 'CEO', company: 'Amazon', industry: 'Technology', primaryAssets: ['AMZN'], relatedSectors: ['Consumer Discretionary', 'Technology'] },
+  { name: 'Lisa Su', role: 'CEO', company: 'AMD', industry: 'Technology', primaryAssets: ['AMD'], relatedSectors: ['Technology'] },
+  { name: 'Pat Gelsinger', role: 'CEO', company: 'Intel', industry: 'Technology', primaryAssets: ['INTC'], relatedSectors: ['Technology'] },
+  { name: 'Reed Hastings', role: 'Co-CEO', company: 'Netflix', industry: 'Technology', primaryAssets: ['NFLX'], relatedSectors: ['Communication Services'] },
+  { name: 'Brian Chesky', role: 'CEO', company: 'Airbnb', industry: 'Technology', primaryAssets: ['ABNB'], relatedSectors: ['Consumer Discretionary'] },
+  { name: 'Dara Khosrowshahi', role: 'CEO', company: 'Uber', industry: 'Technology', primaryAssets: ['UBER'], relatedSectors: ['Consumer Discretionary', 'Technology'] },
+  { name: 'Daniel Ek', role: 'CEO', company: 'Spotify', industry: 'Technology', primaryAssets: ['SPOT'], relatedSectors: ['Communication Services'] },
+  { name: 'Shantanu Narayen', role: 'CEO', company: 'Adobe', industry: 'Technology', primaryAssets: ['ADBE'], relatedSectors: ['Technology'] },
+  { name: 'Arvind Krishna', role: 'CEO', company: 'IBM', industry: 'Technology', primaryAssets: ['IBM'], relatedSectors: ['Technology'] },
+  { name: 'Marc Benioff', role: 'CEO', company: 'Salesforce', industry: 'Technology', primaryAssets: ['CRM'], relatedSectors: ['Technology'] },
+  { name: 'Frank Slootman', role: 'CEO', company: 'Snowflake', industry: 'Technology', primaryAssets: ['SNOW'], relatedSectors: ['Technology'] },
+  { name: 'Demis Hassabis', role: 'CEO', company: 'DeepMind', industry: 'Technology', primaryAssets: ['GOOGL'], relatedSectors: ['Technology'] },
+  { name: 'Michael Saylor', role: 'Chairman', company: 'MicroStrategy', industry: 'Technology', primaryAssets: ['MSTR', 'BTC-USD'], relatedSectors: ['Technology', 'Cryptocurrency'] },
+  { name: 'Tobi Lutke', role: 'CEO', company: 'Shopify', industry: 'Technology', primaryAssets: ['SHOP'], relatedSectors: ['Technology'] },
+  { name: 'Eric Yuan', role: 'CEO', company: 'Zoom', industry: 'Technology', primaryAssets: ['ZM'], relatedSectors: ['Technology'] },
+  { name: 'Jack Dorsey', role: 'Founder', company: 'Block', industry: 'Technology', primaryAssets: ['SQ', 'BTC-USD'], relatedSectors: ['Technology', 'Financials'] },
+  { name: 'Evan Spiegel', role: 'CEO', company: 'Snap', industry: 'Technology', primaryAssets: ['SNAP'], relatedSectors: ['Communication Services'] },
+  { name: 'Zhang Yiming', role: 'Founder', company: 'ByteDance', industry: 'Technology', primaryAssets: ['META', 'GOOGL'], relatedSectors: ['Communication Services'] },
+  { name: 'Chuck Robbins', role: 'CEO', company: 'Cisco', industry: 'Technology', primaryAssets: ['CSCO'], relatedSectors: ['Technology'] },
+  { name: 'Hock Tan', role: 'CEO', company: 'Broadcom', industry: 'Technology', primaryAssets: ['AVGO'], relatedSectors: ['Technology'] },
+  { name: 'Safra Catz', role: 'CEO', company: 'Oracle', industry: 'Technology', primaryAssets: ['ORCL'], relatedSectors: ['Technology'] },
   
   // Finance Leaders
-  { name: 'Jamie Dimon', role: 'CEO', company: 'JPMorgan Chase', industry: 'Finance' },
-  { name: 'Warren Buffett', role: 'Chairman', company: 'Berkshire Hathaway', industry: 'Finance' },
-  { name: 'Larry Fink', role: 'CEO', company: 'BlackRock', industry: 'Finance' },
-  { name: 'Brian Moynihan', role: 'CEO', company: 'Bank of America', industry: 'Finance' },
-  { name: 'David Solomon', role: 'CEO', company: 'Goldman Sachs', industry: 'Finance' },
-  { name: 'Jane Fraser', role: 'CEO', company: 'Citigroup', industry: 'Finance' },
-  { name: 'Ray Dalio', role: 'Founder', company: 'Bridgewater', industry: 'Finance' },
-  { name: 'Ken Griffin', role: 'CEO', company: 'Citadel', industry: 'Finance' },
-  { name: 'Cathie Wood', role: 'CEO', company: 'ARK Invest', industry: 'Finance' },
-  { name: 'Bill Ackman', role: 'CEO', company: 'Pershing Square', industry: 'Finance' },
-  { name: 'Carl Icahn', role: 'Chairman', company: 'Icahn Enterprises', industry: 'Finance' },
-  { name: 'Changpeng Zhao', role: 'Founder', company: 'Binance', industry: 'Finance' },
-  { name: 'Brian Armstrong', role: 'CEO', company: 'Coinbase', industry: 'Finance' },
-  { name: 'Sam Bankman-Fried', role: 'Former CEO', company: 'FTX', industry: 'Finance' },
-  { name: 'Michael Bloomberg', role: 'Founder', company: 'Bloomberg', industry: 'Finance' },
-  { name: 'Stephen Schwarzman', role: 'CEO', company: 'Blackstone', industry: 'Finance' },
-  { name: 'Henry Kravis', role: 'Co-Chairman', company: 'KKR', industry: 'Finance' },
-  { name: 'George Soros', role: 'Founder', company: 'Soros Fund Management', industry: 'Finance' },
-  { name: 'Charlie Munger', role: 'Vice Chairman', company: 'Berkshire Hathaway', industry: 'Finance' },
-  { name: 'Howard Marks', role: 'Co-Chairman', company: 'Oaktree Capital', industry: 'Finance' },
+  { name: 'Jamie Dimon', role: 'CEO', company: 'JPMorgan Chase', industry: 'Finance', primaryAssets: ['JPM'], relatedSectors: ['Financials'] },
+  { name: 'Warren Buffett', role: 'Chairman', company: 'Berkshire Hathaway', industry: 'Finance', primaryAssets: ['BRK.B'], relatedSectors: ['Financials'] },
+  { name: 'Larry Fink', role: 'CEO', company: 'BlackRock', industry: 'Finance', primaryAssets: ['BLK'], relatedSectors: ['Financials'] },
+  { name: 'Brian Moynihan', role: 'CEO', company: 'Bank of America', industry: 'Finance', primaryAssets: ['BAC'], relatedSectors: ['Financials'] },
+  { name: 'David Solomon', role: 'CEO', company: 'Goldman Sachs', industry: 'Finance', primaryAssets: ['GS'], relatedSectors: ['Financials'] },
+  { name: 'Jane Fraser', role: 'CEO', company: 'Citigroup', industry: 'Finance', primaryAssets: ['C'], relatedSectors: ['Financials'] },
+  { name: 'Ray Dalio', role: 'Founder', company: 'Bridgewater', industry: 'Finance', primaryAssets: ['SPY', 'GC=F'], relatedSectors: ['Financials', 'Index'] },
+  { name: 'Ken Griffin', role: 'CEO', company: 'Citadel', industry: 'Finance', primaryAssets: ['SPY', 'QQQ'], relatedSectors: ['Financials', 'Index'] },
+  { name: 'Cathie Wood', role: 'CEO', company: 'ARK Invest', industry: 'Finance', primaryAssets: ['TSLA', 'COIN', 'SQ'], relatedSectors: ['Technology', 'Financials'] },
+  { name: 'Bill Ackman', role: 'CEO', company: 'Pershing Square', industry: 'Finance', primaryAssets: ['SPY'], relatedSectors: ['Financials'] },
+  { name: 'Carl Icahn', role: 'Chairman', company: 'Icahn Enterprises', industry: 'Finance', primaryAssets: ['IEP'], relatedSectors: ['Financials'] },
+  { name: 'Changpeng Zhao', role: 'Founder', company: 'Binance', industry: 'Finance', primaryAssets: ['BTC-USD', 'ETH-USD'], relatedSectors: ['Cryptocurrency'] },
+  { name: 'Brian Armstrong', role: 'CEO', company: 'Coinbase', industry: 'Finance', primaryAssets: ['COIN', 'BTC-USD'], relatedSectors: ['Financials', 'Cryptocurrency'] },
+  { name: 'Michael Bloomberg', role: 'Founder', company: 'Bloomberg', industry: 'Finance', primaryAssets: ['SPY'], relatedSectors: ['Financials', 'Communication Services'] },
+  { name: 'Stephen Schwarzman', role: 'CEO', company: 'Blackstone', industry: 'Finance', primaryAssets: ['BX'], relatedSectors: ['Financials'] },
+  { name: 'Charlie Munger', role: 'Vice Chairman', company: 'Berkshire Hathaway', industry: 'Finance', primaryAssets: ['BRK.B'], relatedSectors: ['Financials'] },
+  { name: 'Howard Marks', role: 'Co-Chairman', company: 'Oaktree Capital', industry: 'Finance', primaryAssets: ['SPY'], relatedSectors: ['Financials'] },
+  { name: 'Al Kelly', role: 'CEO', company: 'Visa', industry: 'Finance', primaryAssets: ['V'], relatedSectors: ['Financials'] },
+  { name: 'Michael Miebach', role: 'CEO', company: 'Mastercard', industry: 'Finance', primaryAssets: ['MA'], relatedSectors: ['Financials'] },
+  { name: 'Charles Schwab', role: 'Founder', company: 'Charles Schwab', industry: 'Finance', primaryAssets: ['SCHW'], relatedSectors: ['Financials'] },
   
   // Business Leaders
-  { name: 'Mary Barra', role: 'CEO', company: 'General Motors', industry: 'Business' },
-  { name: 'Bob Iger', role: 'CEO', company: 'Disney', industry: 'Business' },
-  { name: 'Doug McMillon', role: 'CEO', company: 'Walmart', industry: 'Business' },
-  { name: 'James Quincey', role: 'CEO', company: 'Coca-Cola', industry: 'Business' },
-  { name: 'Ramon Laguarta', role: 'CEO', company: 'PepsiCo', industry: 'Business' },
-  { name: 'Brian Niccol', role: 'CEO', company: 'Chipotle', industry: 'Business' },
-  { name: 'Kevin Johnson', role: 'CEO', company: 'Starbucks', industry: 'Business' },
-  { name: 'Mukesh Ambani', role: 'Chairman', company: 'Reliance Industries', industry: 'Business' },
-  { name: 'Bernard Arnault', role: 'CEO', company: 'LVMH', industry: 'Business' },
-  { name: 'Francois-Henri Pinault', role: 'CEO', company: 'Kering', industry: 'Business' },
+  { name: 'Mary Barra', role: 'CEO', company: 'General Motors', industry: 'Business', primaryAssets: ['GM'], relatedSectors: ['Consumer Discretionary'] },
+  { name: 'Bob Iger', role: 'CEO', company: 'Disney', industry: 'Business', primaryAssets: ['DIS'], relatedSectors: ['Communication Services'] },
+  { name: 'Doug McMillon', role: 'CEO', company: 'Walmart', industry: 'Business', primaryAssets: ['WMT'], relatedSectors: ['Consumer Staples'] },
+  { name: 'James Quincey', role: 'CEO', company: 'Coca-Cola', industry: 'Business', primaryAssets: ['KO'], relatedSectors: ['Consumer Staples'] },
+  { name: 'Ramon Laguarta', role: 'CEO', company: 'PepsiCo', industry: 'Business', primaryAssets: ['PEP'], relatedSectors: ['Consumer Staples'] },
+  { name: 'Brian Niccol', role: 'CEO', company: 'Chipotle', industry: 'Business', primaryAssets: ['CMG'], relatedSectors: ['Consumer Discretionary'] },
+  { name: 'Laxman Narasimhan', role: 'CEO', company: 'Starbucks', industry: 'Business', primaryAssets: ['SBUX'], relatedSectors: ['Consumer Discretionary'] },
+  { name: 'Mukesh Ambani', role: 'Chairman', company: 'Reliance Industries', industry: 'Business', primaryAssets: ['XOM', 'CL=F'], relatedSectors: ['Energy'] },
+  { name: 'Bernard Arnault', role: 'CEO', company: 'LVMH', industry: 'Business', primaryAssets: ['EL'], relatedSectors: ['Consumer Discretionary'] },
+  { name: 'Jim Farley', role: 'CEO', company: 'Ford', industry: 'Business', primaryAssets: ['F'], relatedSectors: ['Consumer Discretionary'] },
+  { name: 'Darren Woods', role: 'CEO', company: 'ExxonMobil', industry: 'Business', primaryAssets: ['XOM'], relatedSectors: ['Energy'] },
+  { name: 'Mike Wirth', role: 'CEO', company: 'Chevron', industry: 'Business', primaryAssets: ['CVX'], relatedSectors: ['Energy'] },
+  { name: 'David Calhoun', role: 'CEO', company: 'Boeing', industry: 'Business', primaryAssets: ['BA'], relatedSectors: ['Industrials'] },
+  { name: 'Jim Taiclet', role: 'CEO', company: 'Lockheed Martin', industry: 'Business', primaryAssets: ['LMT'], relatedSectors: ['Industrials'] },
+  { name: 'Craig Menear', role: 'CEO', company: 'Home Depot', industry: 'Business', primaryAssets: ['HD'], relatedSectors: ['Consumer Discretionary'] },
   
   // Policy Makers
-  { name: 'Jerome Powell', role: 'Chairman', company: 'Federal Reserve', industry: 'Politics' },
-  { name: 'Christine Lagarde', role: 'President', company: 'ECB', industry: 'Politics' },
-  { name: 'Janet Yellen', role: 'Secretary', company: 'US Treasury', industry: 'Politics' },
-  { name: 'Gary Gensler', role: 'Chairman', company: 'SEC', industry: 'Politics' },
-  { name: 'Lina Khan', role: 'Chair', company: 'FTC', industry: 'Politics' },
-  { name: 'Gina Raimondo', role: 'Secretary', company: 'Commerce', industry: 'Politics' },
-  { name: 'Haruhiko Kuroda', role: 'Governor', company: 'Bank of Japan', industry: 'Politics' },
-  { name: 'Andrew Bailey', role: 'Governor', company: 'Bank of England', industry: 'Politics' },
-  { name: 'Yi Gang', role: 'Governor', company: 'PBOC', industry: 'Politics' },
-  { name: 'Kristalina Georgieva', role: 'Managing Director', company: 'IMF', industry: 'Politics' },
+  { name: 'Jerome Powell', role: 'Chairman', company: 'Federal Reserve', industry: 'Politics', primaryAssets: ['SPY', 'DXY', 'GC=F'], relatedSectors: ['Index', 'Financials'] },
+  { name: 'Christine Lagarde', role: 'President', company: 'ECB', industry: 'Politics', primaryAssets: ['DXY', 'SPY'], relatedSectors: ['Index', 'Financials'] },
+  { name: 'Janet Yellen', role: 'Secretary', company: 'US Treasury', industry: 'Politics', primaryAssets: ['SPY', 'DXY'], relatedSectors: ['Index', 'Financials'] },
+  { name: 'Gary Gensler', role: 'Chairman', company: 'SEC', industry: 'Politics', primaryAssets: ['SPY', 'COIN', 'BTC-USD'], relatedSectors: ['Financials', 'Cryptocurrency'] },
+  { name: 'Lina Khan', role: 'Chair', company: 'FTC', industry: 'Politics', primaryAssets: ['GOOGL', 'META', 'AMZN', 'AAPL'], relatedSectors: ['Technology', 'Communication Services'] },
+  { name: 'Gina Raimondo', role: 'Secretary', company: 'Commerce', industry: 'Politics', primaryAssets: ['NVDA', 'INTC', 'AMD'], relatedSectors: ['Technology'] },
+  { name: 'Kazuo Ueda', role: 'Governor', company: 'Bank of Japan', industry: 'Politics', primaryAssets: ['DXY', 'SPY'], relatedSectors: ['Index'] },
+  { name: 'Andrew Bailey', role: 'Governor', company: 'Bank of England', industry: 'Politics', primaryAssets: ['DXY', 'SPY'], relatedSectors: ['Index', 'Financials'] },
+  { name: 'Kristalina Georgieva', role: 'Managing Director', company: 'IMF', industry: 'Politics', primaryAssets: ['SPY', 'DXY'], relatedSectors: ['Index'] },
 ];
 
-// All S&P 500 companies (by sector)
+// All S&P 500 companies + crypto/indices with CEO relationships
 const sp500Companies = [
-  // Information Technology (77)
-  { symbol: 'AAPL', name: 'Apple Inc.', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'MSFT', name: 'Microsoft Corporation', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'NVDA', name: 'NVIDIA Corporation', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'AVGO', name: 'Broadcom Inc.', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'ORCL', name: 'Oracle Corporation', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'CRM', name: 'Salesforce Inc.', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'AMD', name: 'Advanced Micro Devices', asset_type: 'stock', sector: 'Technology' },
+  // Information Technology
+  { symbol: 'AAPL', name: 'Apple Inc.', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Tim Cook' },
+  { symbol: 'MSFT', name: 'Microsoft Corporation', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Satya Nadella' },
+  { symbol: 'NVDA', name: 'NVIDIA Corporation', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Jensen Huang' },
+  { symbol: 'AVGO', name: 'Broadcom Inc.', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Hock Tan' },
+  { symbol: 'ORCL', name: 'Oracle Corporation', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Safra Catz' },
+  { symbol: 'CRM', name: 'Salesforce Inc.', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Marc Benioff' },
+  { symbol: 'AMD', name: 'Advanced Micro Devices', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Lisa Su' },
   { symbol: 'ACN', name: 'Accenture plc', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'CSCO', name: 'Cisco Systems Inc.', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'ADBE', name: 'Adobe Inc.', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'IBM', name: 'IBM Corporation', asset_type: 'stock', sector: 'Technology' },
+  { symbol: 'CSCO', name: 'Cisco Systems Inc.', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Chuck Robbins' },
+  { symbol: 'ADBE', name: 'Adobe Inc.', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Shantanu Narayen' },
+  { symbol: 'IBM', name: 'IBM Corporation', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Arvind Krishna' },
   { symbol: 'QCOM', name: 'Qualcomm Inc.', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'TXN', name: 'Texas Instruments', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'INTU', name: 'Intuit Inc.', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'NOW', name: 'ServiceNow Inc.', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'AMAT', name: 'Applied Materials', asset_type: 'stock', sector: 'Technology' },
-  { symbol: 'INTC', name: 'Intel Corporation', asset_type: 'stock', sector: 'Technology' },
+  { symbol: 'INTC', name: 'Intel Corporation', asset_type: 'stock', sector: 'Technology', primaryPerson: 'Pat Gelsinger' },
   { symbol: 'ADI', name: 'Analog Devices', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'MU', name: 'Micron Technology', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'LRCX', name: 'Lam Research', asset_type: 'stock', sector: 'Technology' },
@@ -144,12 +148,12 @@ const sp500Companies = [
   { symbol: 'EPAM', name: 'EPAM Systems', asset_type: 'stock', sector: 'Technology' },
   { symbol: 'QRVO', name: 'Qorvo Inc.', asset_type: 'stock', sector: 'Technology' },
   
-  // Communication Services (26)
-  { symbol: 'GOOGL', name: 'Alphabet Inc. Class A', asset_type: 'stock', sector: 'Communication Services' },
-  { symbol: 'GOOG', name: 'Alphabet Inc. Class C', asset_type: 'stock', sector: 'Communication Services' },
-  { symbol: 'META', name: 'Meta Platforms Inc.', asset_type: 'stock', sector: 'Communication Services' },
-  { symbol: 'NFLX', name: 'Netflix Inc.', asset_type: 'stock', sector: 'Communication Services' },
-  { symbol: 'DIS', name: 'Walt Disney Company', asset_type: 'stock', sector: 'Communication Services' },
+  // Communication Services
+  { symbol: 'GOOGL', name: 'Alphabet Inc. Class A', asset_type: 'stock', sector: 'Communication Services', primaryPerson: 'Sundar Pichai' },
+  { symbol: 'GOOG', name: 'Alphabet Inc. Class C', asset_type: 'stock', sector: 'Communication Services', primaryPerson: 'Sundar Pichai' },
+  { symbol: 'META', name: 'Meta Platforms Inc.', asset_type: 'stock', sector: 'Communication Services', primaryPerson: 'Mark Zuckerberg' },
+  { symbol: 'NFLX', name: 'Netflix Inc.', asset_type: 'stock', sector: 'Communication Services', primaryPerson: 'Reed Hastings' },
+  { symbol: 'DIS', name: 'Walt Disney Company', asset_type: 'stock', sector: 'Communication Services', primaryPerson: 'Bob Iger' },
   { symbol: 'CMCSA', name: 'Comcast Corporation', asset_type: 'stock', sector: 'Communication Services' },
   { symbol: 'VZ', name: 'Verizon Communications', asset_type: 'stock', sector: 'Communication Services' },
   { symbol: 'T', name: 'AT&T Inc.', asset_type: 'stock', sector: 'Communication Services' },
@@ -166,27 +170,27 @@ const sp500Companies = [
   { symbol: 'MTCH', name: 'Match Group Inc.', asset_type: 'stock', sector: 'Communication Services' },
   { symbol: 'NWSA', name: 'News Corp Class A', asset_type: 'stock', sector: 'Communication Services' },
   
-  // Consumer Discretionary (61)
-  { symbol: 'AMZN', name: 'Amazon.com Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'TSLA', name: 'Tesla Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'HD', name: 'Home Depot Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
+  // Consumer Discretionary
+  { symbol: 'AMZN', name: 'Amazon.com Inc.', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Andy Jassy' },
+  { symbol: 'TSLA', name: 'Tesla Inc.', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Elon Musk' },
+  { symbol: 'HD', name: 'Home Depot Inc.', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Craig Menear' },
   { symbol: 'MCD', name: 'McDonald\'s Corporation', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'NKE', name: 'Nike Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'LOW', name: 'Lowe\'s Companies', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'SBUX', name: 'Starbucks Corporation', asset_type: 'stock', sector: 'Consumer Discretionary' },
+  { symbol: 'SBUX', name: 'Starbucks Corporation', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Laxman Narasimhan' },
   { symbol: 'TJX', name: 'TJX Companies', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'BKNG', name: 'Booking Holdings', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'ABNB', name: 'Airbnb Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
+  { symbol: 'ABNB', name: 'Airbnb Inc.', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Brian Chesky' },
   { symbol: 'MAR', name: 'Marriott International', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'HLT', name: 'Hilton Worldwide', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'CMG', name: 'Chipotle Mexican Grill', asset_type: 'stock', sector: 'Consumer Discretionary' },
+  { symbol: 'CMG', name: 'Chipotle Mexican Grill', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Brian Niccol' },
   { symbol: 'ORLY', name: 'O\'Reilly Automotive', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'AZO', name: 'AutoZone Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'ROST', name: 'Ross Stores Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'DHI', name: 'D.R. Horton Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'LEN', name: 'Lennar Corporation', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'GM', name: 'General Motors', asset_type: 'stock', sector: 'Consumer Discretionary' },
-  { symbol: 'F', name: 'Ford Motor Company', asset_type: 'stock', sector: 'Consumer Discretionary' },
+  { symbol: 'GM', name: 'General Motors', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Mary Barra' },
+  { symbol: 'F', name: 'Ford Motor Company', asset_type: 'stock', sector: 'Consumer Discretionary', primaryPerson: 'Jim Farley' },
   { symbol: 'YUM', name: 'Yum! Brands Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'DPZ', name: 'Domino\'s Pizza', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'EBAY', name: 'eBay Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
@@ -210,12 +214,12 @@ const sp500Companies = [
   { symbol: 'APTV', name: 'Aptiv PLC', asset_type: 'stock', sector: 'Consumer Discretionary' },
   { symbol: 'BWA', name: 'BorgWarner Inc.', asset_type: 'stock', sector: 'Consumer Discretionary' },
   
-  // Consumer Staples (38)
+  // Consumer Staples
   { symbol: 'PG', name: 'Procter & Gamble', asset_type: 'stock', sector: 'Consumer Staples' },
-  { symbol: 'KO', name: 'Coca-Cola Company', asset_type: 'stock', sector: 'Consumer Staples' },
-  { symbol: 'PEP', name: 'PepsiCo Inc.', asset_type: 'stock', sector: 'Consumer Staples' },
+  { symbol: 'KO', name: 'Coca-Cola Company', asset_type: 'stock', sector: 'Consumer Staples', primaryPerson: 'James Quincey' },
+  { symbol: 'PEP', name: 'PepsiCo Inc.', asset_type: 'stock', sector: 'Consumer Staples', primaryPerson: 'Ramon Laguarta' },
   { symbol: 'COST', name: 'Costco Wholesale', asset_type: 'stock', sector: 'Consumer Staples' },
-  { symbol: 'WMT', name: 'Walmart Inc.', asset_type: 'stock', sector: 'Consumer Staples' },
+  { symbol: 'WMT', name: 'Walmart Inc.', asset_type: 'stock', sector: 'Consumer Staples', primaryPerson: 'Doug McMillon' },
   { symbol: 'PM', name: 'Philip Morris International', asset_type: 'stock', sector: 'Consumer Staples' },
   { symbol: 'MO', name: 'Altria Group Inc.', asset_type: 'stock', sector: 'Consumer Staples' },
   { symbol: 'MDLZ', name: 'Mondelez International', asset_type: 'stock', sector: 'Consumer Staples' },
@@ -242,7 +246,7 @@ const sp500Companies = [
   { symbol: 'TAP', name: 'Molson Coors Beverage', asset_type: 'stock', sector: 'Consumer Staples' },
   { symbol: 'BF.B', name: 'Brown-Forman', asset_type: 'stock', sector: 'Consumer Staples' },
   
-  // Healthcare (65)
+  // Healthcare
   { symbol: 'UNH', name: 'UnitedHealth Group', asset_type: 'stock', sector: 'Healthcare' },
   { symbol: 'JNJ', name: 'Johnson & Johnson', asset_type: 'stock', sector: 'Healthcare' },
   { symbol: 'LLY', name: 'Eli Lilly and Company', asset_type: 'stock', sector: 'Healthcare' },
@@ -294,20 +298,20 @@ const sp500Companies = [
   { symbol: 'TECH', name: 'Bio-Techne Corporation', asset_type: 'stock', sector: 'Healthcare' },
   { symbol: 'VTRS', name: 'Viatris Inc.', asset_type: 'stock', sector: 'Healthcare' },
   
-  // Financials (74)
-  { symbol: 'BRK.B', name: 'Berkshire Hathaway', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'JPM', name: 'JPMorgan Chase', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'V', name: 'Visa Inc.', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'MA', name: 'Mastercard Inc.', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'BAC', name: 'Bank of America', asset_type: 'stock', sector: 'Financials' },
+  // Financials
+  { symbol: 'BRK.B', name: 'Berkshire Hathaway', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Warren Buffett' },
+  { symbol: 'JPM', name: 'JPMorgan Chase', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Jamie Dimon' },
+  { symbol: 'V', name: 'Visa Inc.', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Al Kelly' },
+  { symbol: 'MA', name: 'Mastercard Inc.', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Michael Miebach' },
+  { symbol: 'BAC', name: 'Bank of America', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Brian Moynihan' },
   { symbol: 'WFC', name: 'Wells Fargo & Company', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'GS', name: 'Goldman Sachs Group', asset_type: 'stock', sector: 'Financials' },
+  { symbol: 'GS', name: 'Goldman Sachs Group', asset_type: 'stock', sector: 'Financials', primaryPerson: 'David Solomon' },
   { symbol: 'MS', name: 'Morgan Stanley', asset_type: 'stock', sector: 'Financials' },
   { symbol: 'SPGI', name: 'S&P Global Inc.', asset_type: 'stock', sector: 'Financials' },
   { symbol: 'AXP', name: 'American Express', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'BLK', name: 'BlackRock Inc.', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'C', name: 'Citigroup Inc.', asset_type: 'stock', sector: 'Financials' },
-  { symbol: 'SCHW', name: 'Charles Schwab', asset_type: 'stock', sector: 'Financials' },
+  { symbol: 'BLK', name: 'BlackRock Inc.', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Larry Fink' },
+  { symbol: 'C', name: 'Citigroup Inc.', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Jane Fraser' },
+  { symbol: 'SCHW', name: 'Charles Schwab', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Charles Schwab' },
   { symbol: 'CB', name: 'Chubb Limited', asset_type: 'stock', sector: 'Financials' },
   { symbol: 'PGR', name: 'Progressive Corporation', asset_type: 'stock', sector: 'Financials' },
   { symbol: 'ICE', name: 'Intercontinental Exchange', asset_type: 'stock', sector: 'Financials' },
@@ -357,16 +361,17 @@ const sp500Companies = [
   { symbol: 'MKTX', name: 'MarketAxess Holdings', asset_type: 'stock', sector: 'Financials' },
   { symbol: 'ZION', name: 'Zions Bancorporation', asset_type: 'stock', sector: 'Financials' },
   { symbol: 'CMA', name: 'Comerica Inc.', asset_type: 'stock', sector: 'Financials' },
+  { symbol: 'COIN', name: 'Coinbase Global', asset_type: 'stock', sector: 'Financials', primaryPerson: 'Brian Armstrong' },
   
-  // Industrials (79)
+  // Industrials
   { symbol: 'CAT', name: 'Caterpillar Inc.', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'GE', name: 'GE Aerospace', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'RTX', name: 'RTX Corporation', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'HON', name: 'Honeywell International', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'UNP', name: 'Union Pacific Corporation', asset_type: 'stock', sector: 'Industrials' },
-  { symbol: 'BA', name: 'Boeing Company', asset_type: 'stock', sector: 'Industrials' },
+  { symbol: 'BA', name: 'Boeing Company', asset_type: 'stock', sector: 'Industrials', primaryPerson: 'David Calhoun' },
   { symbol: 'DE', name: 'Deere & Company', asset_type: 'stock', sector: 'Industrials' },
-  { symbol: 'LMT', name: 'Lockheed Martin', asset_type: 'stock', sector: 'Industrials' },
+  { symbol: 'LMT', name: 'Lockheed Martin', asset_type: 'stock', sector: 'Industrials', primaryPerson: 'Jim Taiclet' },
   { symbol: 'UPS', name: 'United Parcel Service', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'ADP', name: 'Automatic Data Processing', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'ETN', name: 'Eaton Corporation', asset_type: 'stock', sector: 'Industrials' },
@@ -429,9 +434,9 @@ const sp500Companies = [
   { symbol: 'TXT', name: 'Textron Inc.', asset_type: 'stock', sector: 'Industrials' },
   { symbol: 'PNR', name: 'Pentair plc', asset_type: 'stock', sector: 'Industrials' },
   
-  // Energy (23)
-  { symbol: 'XOM', name: 'Exxon Mobil Corporation', asset_type: 'stock', sector: 'Energy' },
-  { symbol: 'CVX', name: 'Chevron Corporation', asset_type: 'stock', sector: 'Energy' },
+  // Energy
+  { symbol: 'XOM', name: 'Exxon Mobil Corporation', asset_type: 'stock', sector: 'Energy', primaryPerson: 'Darren Woods' },
+  { symbol: 'CVX', name: 'Chevron Corporation', asset_type: 'stock', sector: 'Energy', primaryPerson: 'Mike Wirth' },
   { symbol: 'COP', name: 'ConocoPhillips', asset_type: 'stock', sector: 'Energy' },
   { symbol: 'EOG', name: 'EOG Resources', asset_type: 'stock', sector: 'Energy' },
   { symbol: 'SLB', name: 'Schlumberger Limited', asset_type: 'stock', sector: 'Energy' },
@@ -454,7 +459,7 @@ const sp500Companies = [
   { symbol: 'MRO', name: 'Marathon Oil', asset_type: 'stock', sector: 'Energy' },
   { symbol: 'APA', name: 'APA Corporation', asset_type: 'stock', sector: 'Energy' },
   
-  // Materials (28)
+  // Materials
   { symbol: 'LIN', name: 'Linde plc', asset_type: 'stock', sector: 'Materials' },
   { symbol: 'APD', name: 'Air Products and Chemicals', asset_type: 'stock', sector: 'Materials' },
   { symbol: 'SHW', name: 'Sherwin-Williams', asset_type: 'stock', sector: 'Materials' },
@@ -484,7 +489,7 @@ const sp500Companies = [
   { symbol: 'AMCR', name: 'Amcor plc', asset_type: 'stock', sector: 'Materials' },
   { symbol: 'WRK', name: 'WestRock Company', asset_type: 'stock', sector: 'Materials' },
   
-  // Real Estate (31)
+  // Real Estate
   { symbol: 'PLD', name: 'Prologis Inc.', asset_type: 'stock', sector: 'Real Estate' },
   { symbol: 'AMT', name: 'American Tower Corporation', asset_type: 'stock', sector: 'Real Estate' },
   { symbol: 'EQIX', name: 'Equinix Inc.', asset_type: 'stock', sector: 'Real Estate' },
@@ -515,7 +520,7 @@ const sp500Companies = [
   { symbol: 'FRT', name: 'Federal Realty Investment Trust', asset_type: 'stock', sector: 'Real Estate' },
   { symbol: 'PEAK', name: 'Healthpeak Properties', asset_type: 'stock', sector: 'Real Estate' },
   
-  // Utilities (30)
+  // Utilities
   { symbol: 'NEE', name: 'NextEra Energy', asset_type: 'stock', sector: 'Utilities' },
   { symbol: 'DUK', name: 'Duke Energy Corporation', asset_type: 'stock', sector: 'Utilities' },
   { symbol: 'SO', name: 'Southern Company', asset_type: 'stock', sector: 'Utilities' },
@@ -545,15 +550,34 @@ const sp500Companies = [
   { symbol: 'PNW', name: 'Pinnacle West Capital', asset_type: 'stock', sector: 'Utilities' },
   { symbol: 'NRG', name: 'NRG Energy', asset_type: 'stock', sector: 'Utilities' },
   
-  // Additional assets (Crypto, Indices, Commodities)
-  { symbol: 'BTC-USD', name: 'Bitcoin', asset_type: 'crypto', sector: 'Cryptocurrency' },
+  // Crypto, Indices, Commodities
+  { symbol: 'BTC-USD', name: 'Bitcoin', asset_type: 'crypto', sector: 'Cryptocurrency', primaryPerson: 'Michael Saylor' },
   { symbol: 'ETH-USD', name: 'Ethereum', asset_type: 'crypto', sector: 'Cryptocurrency' },
-  { symbol: 'SPY', name: 'S&P 500 ETF', asset_type: 'index', sector: 'Index' },
+  { symbol: 'SPY', name: 'S&P 500 ETF', asset_type: 'index', sector: 'Index', primaryPerson: 'Jerome Powell' },
   { symbol: 'QQQ', name: 'NASDAQ 100 ETF', asset_type: 'index', sector: 'Index' },
-  { symbol: 'DXY', name: 'US Dollar Index', asset_type: 'index', sector: 'Currency' },
+  { symbol: 'DXY', name: 'US Dollar Index', asset_type: 'index', sector: 'Currency', primaryPerson: 'Jerome Powell' },
   { symbol: 'GC=F', name: 'Gold Futures', asset_type: 'commodity', sector: 'Commodities' },
   { symbol: 'CL=F', name: 'Crude Oil Futures', asset_type: 'commodity', sector: 'Commodities' },
 ];
+
+// Sector similarity map for industry weighting
+const sectorSimilarity: Record<string, string[]> = {
+  'Technology': ['Technology', 'Communication Services'],
+  'Communication Services': ['Technology', 'Communication Services', 'Consumer Discretionary'],
+  'Consumer Discretionary': ['Consumer Discretionary', 'Consumer Staples', 'Communication Services'],
+  'Consumer Staples': ['Consumer Staples', 'Consumer Discretionary'],
+  'Financials': ['Financials', 'Index'],
+  'Healthcare': ['Healthcare'],
+  'Industrials': ['Industrials', 'Materials'],
+  'Energy': ['Energy', 'Materials', 'Commodities'],
+  'Materials': ['Materials', 'Industrials', 'Energy'],
+  'Real Estate': ['Real Estate', 'Financials'],
+  'Utilities': ['Utilities', 'Energy'],
+  'Cryptocurrency': ['Cryptocurrency', 'Financials', 'Technology'],
+  'Index': ['Index', 'Financials'],
+  'Commodities': ['Commodities', 'Energy', 'Materials'],
+  'Currency': ['Currency', 'Index', 'Financials'],
+};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -565,24 +589,42 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    console.log('Seeding database with expanded data...');
+    // Check for force reseed parameter
+    const { force } = await req.json().catch(() => ({ force: false }));
+
+    console.log('Seeding database with expanded data and permanent relationships...');
 
     // Check if data already exists
     const { count: peopleCount } = await supabase
       .from('people')
       .select('*', { count: 'exact', head: true });
 
-    if ((peopleCount || 0) > 0) {
+    if ((peopleCount || 0) > 0 && !force) {
       return new Response(
-        JSON.stringify({ success: true, message: 'Database already seeded', people: peopleCount }),
+        JSON.stringify({ success: true, message: 'Database already seeded. Pass { force: true } to reseed.', people: peopleCount }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Insert people with random initial influence scores
+    // Clear existing data if reseeding
+    if (force && (peopleCount || 0) > 0) {
+      console.log('Clearing existing data...');
+      await supabase.from('person_asset_relationships').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('influence_logs').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('person_mentions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('asset_mentions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('news_articles').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('people').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('assets').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    }
+
+    // Insert people with influence scores
     const peopleWithScores = seedPeople.map((person, index) => ({
-      ...person,
-      influence_score: Math.round(95 - (index * 0.8) + Math.random() * 10),
+      name: person.name,
+      role: person.role,
+      company: person.company,
+      industry: person.industry,
+      influence_score: Math.round(95 - (index * 0.5) + Math.random() * 8),
       avatar_url: `https://api.dicebear.com/7.x/initials/svg?seed=${person.name.replace(' ', '')}&backgroundColor=0ea5e9,22c55e,f97316&backgroundType=gradientLinear`,
     }));
 
@@ -597,13 +639,22 @@ serve(async (req) => {
 
     console.log('Inserted', insertedPeople?.length, 'people');
 
-    // Insert assets with initial influence scores
+    // Create person name to ID map
+    const personNameToId: Record<string, string> = {};
+    for (const person of insertedPeople || []) {
+      personNameToId[person.name] = person.id;
+    }
+
+    // Insert assets with influence scores
     const assetsWithScores = sp500Companies.map((asset, index) => ({
-      ...asset,
-      influence_score: Math.round(90 - (index * 0.15) + Math.random() * 10),
+      symbol: asset.symbol,
+      name: asset.name,
+      asset_type: asset.asset_type,
+      sector: asset.sector,
+      influence_score: Math.round(90 - (index * 0.12) + Math.random() * 8),
     }));
 
-    // Insert in batches to avoid timeout
+    // Insert in batches
     const batchSize = 100;
     let insertedAssets: any[] = [];
     
@@ -626,22 +677,83 @@ serve(async (req) => {
 
     console.log('Inserted', insertedAssets.length, 'assets');
 
-    // Create some initial relationships
-    const relationships = [];
-    for (const person of insertedPeople || []) {
-      // Each person gets 5-10 random asset relationships
-      const numRelationships = 5 + Math.floor(Math.random() * 6);
-      const shuffledAssets = [...insertedAssets].sort(() => Math.random() - 0.5);
+    // Create asset symbol to ID map
+    const assetSymbolToId: Record<string, string> = {};
+    const assetIdToSector: Record<string, string> = {};
+    for (const asset of insertedAssets) {
+      assetSymbolToId[asset.symbol] = asset.id;
+      assetIdToSector[asset.id] = asset.sector;
+    }
+
+    // Create relationships with permanent CEO-company links
+    const relationships: any[] = [];
+    const addedRelationships = new Set<string>();
+
+    // First, add primary/permanent relationships (highest weight)
+    for (const personData of seedPeople) {
+      const personId = personNameToId[personData.name];
+      if (!personId) continue;
+
+      // Add primary assets with highest correlation (permanent link)
+      for (const symbol of personData.primaryAssets || []) {
+        const assetId = assetSymbolToId[symbol];
+        if (!assetId) continue;
+        
+        const key = `${personId}:${assetId}`;
+        if (!addedRelationships.has(key)) {
+          relationships.push({
+            person_id: personId,
+            asset_id: assetId,
+            correlation_score: 0.95 + Math.random() * 0.05, // 0.95-1.0
+            influence_strength: 90 + Math.round(Math.random() * 10), // 90-100
+            co_mention_count: 50 + Math.floor(Math.random() * 50), // High count
+            last_co_mention_at: new Date().toISOString(),
+          });
+          addedRelationships.add(key);
+        }
+      }
+
+      // Add secondary relationships in related sectors (medium-high weight)
+      const relatedSectors = personData.relatedSectors || [];
+      const sectorAssets = insertedAssets.filter(a => relatedSectors.includes(a.sector));
+      const numSecondary = Math.min(8, sectorAssets.length);
+      const shuffledSectorAssets = sectorAssets.sort(() => Math.random() - 0.5).slice(0, numSecondary);
+
+      for (const asset of shuffledSectorAssets) {
+        const key = `${personId}:${asset.id}`;
+        if (!addedRelationships.has(key)) {
+          relationships.push({
+            person_id: personId,
+            asset_id: asset.id,
+            correlation_score: 0.5 + Math.random() * 0.3, // 0.5-0.8
+            influence_strength: 40 + Math.round(Math.random() * 30), // 40-70
+            co_mention_count: 5 + Math.floor(Math.random() * 20),
+            last_co_mention_at: new Date(Date.now() - Math.random() * 14 * 24 * 60 * 60 * 1000).toISOString(),
+          });
+          addedRelationships.add(key);
+        }
+      }
+    }
+
+    // Add asset-to-person primary relationships (reverse direction for asset rankings)
+    for (const assetData of sp500Companies) {
+      if (!assetData.primaryPerson) continue;
       
-      for (let i = 0; i < numRelationships && i < shuffledAssets.length; i++) {
+      const assetId = assetSymbolToId[assetData.symbol];
+      const personId = personNameToId[assetData.primaryPerson];
+      if (!assetId || !personId) continue;
+
+      const key = `${personId}:${assetId}`;
+      if (!addedRelationships.has(key)) {
         relationships.push({
-          person_id: person.id,
-          asset_id: shuffledAssets[i].id,
-          correlation_score: Math.round((0.3 + Math.random() * 0.7) * 100) / 100,
-          influence_strength: Math.round(30 + Math.random() * 70),
-          co_mention_count: Math.floor(Math.random() * 15) + 1,
-          last_co_mention_at: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+          person_id: personId,
+          asset_id: assetId,
+          correlation_score: 0.95 + Math.random() * 0.05,
+          influence_strength: 90 + Math.round(Math.random() * 10),
+          co_mention_count: 50 + Math.floor(Math.random() * 50),
+          last_co_mention_at: new Date().toISOString(),
         });
+        addedRelationships.add(key);
       }
     }
 
