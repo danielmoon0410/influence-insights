@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { TrendingUp, TrendingDown, Minus, Building2 } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Asset } from "@/lib/api/influence-graph";
 
@@ -190,21 +190,24 @@ const getAssetLogoUrl = (symbol: string, assetType: string): string => {
   return `https://ui-avatars.com/api/?name=${cleanSymbol}&background=64748b&color=fff&bold=true&size=128`;
 };
 
+// Format market cap for display
+const formatMarketCap = (marketCap: number | null): string => {
+  if (!marketCap || marketCap === 0) return 'N/A';
+  if (marketCap >= 1e12) return `$${(marketCap / 1e12).toFixed(2)}T`;
+  if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(1)}B`;
+  if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(1)}M`;
+  return `$${marketCap.toLocaleString()}`;
+};
+
 export function AssetCard({ asset, rank }: AssetCardProps) {
-  const score = asset.influence_score || 0;
+  const marketCap = asset.market_cap || 0;
   const sectorClass = sectorColors[asset.sector || ''] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
   
-  const getScoreColor = () => {
-    if (score >= 80) return 'text-emerald-400';
-    if (score >= 60) return 'text-blue-400';
-    if (score >= 40) return 'text-yellow-400';
+  const getMarketCapColor = () => {
+    if (marketCap >= 1e12) return 'text-emerald-400'; // Trillion+
+    if (marketCap >= 500e9) return 'text-blue-400';   // 500B+
+    if (marketCap >= 100e9) return 'text-yellow-400'; // 100B+
     return 'text-muted-foreground';
-  };
-
-  const getTrendIcon = () => {
-    if (score >= 70) return <TrendingUp className="w-4 h-4 text-emerald-400" />;
-    if (score >= 40) return <Minus className="w-4 h-4 text-yellow-400" />;
-    return <TrendingDown className="w-4 h-4 text-red-400" />;
   };
 
   return (
@@ -242,12 +245,12 @@ export function AssetCard({ asset, rank }: AssetCardProps) {
             <p className="text-sm text-muted-foreground truncate">{asset.name}</p>
           </div>
 
-          {/* Score */}
+          {/* Market Cap */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            {getTrendIcon()}
+            <Building2 className="w-4 h-4 text-muted-foreground" />
             <div className="text-right">
-              <div className={`text-lg font-bold ${getScoreColor()}`}>{score}</div>
-              <div className="text-xs text-muted-foreground">Influence</div>
+              <div className={`text-lg font-bold ${getMarketCapColor()}`}>{formatMarketCap(marketCap)}</div>
+              <div className="text-xs text-muted-foreground">Market Cap</div>
             </div>
           </div>
         </div>
