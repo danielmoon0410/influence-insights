@@ -19,6 +19,7 @@ export interface Asset {
   asset_type: string;
   sector: string | null;
   influence_score: number;
+  market_cap: number | null;
   created_at: string;
 }
 
@@ -147,7 +148,7 @@ export async function fetchPersonNews(personId: string, limit = 10): Promise<New
   return (data || []).map(d => d.news_articles as unknown as NewsArticle).filter(Boolean);
 }
 
-// Fetch all assets ranked by influence
+// Fetch all assets ranked by market cap
 export async function fetchAssets(options?: {
   limit?: number;
   sector?: string;
@@ -156,7 +157,7 @@ export async function fetchAssets(options?: {
   let query = supabase
     .from('assets')
     .select('*')
-    .order('influence_score', { ascending: false });
+    .order('market_cap', { ascending: false, nullsFirst: false });
 
   if (options?.limit) query = query.limit(options.limit);
   if (options?.sector && options.sector !== 'all') query = query.eq('sector', options.sector);
