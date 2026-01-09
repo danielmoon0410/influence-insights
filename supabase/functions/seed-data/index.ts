@@ -79,7 +79,8 @@ const seedPeople = [
   { name: 'Jim Taiclet', role: 'CEO', company: 'Lockheed Martin', industry: 'Business', primaryAssets: ['LMT'], relatedSectors: ['Industrials'] },
   { name: 'Craig Menear', role: 'CEO', company: 'Home Depot', industry: 'Business', primaryAssets: ['HD'], relatedSectors: ['Consumer Discretionary'] },
   
-  // Policy Makers
+  // Policy Makers & Politicians
+  { name: 'Donald Trump', role: 'President', company: 'United States', industry: 'Politics', primaryAssets: ['SPY', 'DXY', 'QQQ'], relatedSectors: ['Index', 'Energy', 'Industrials', 'Financials'] },
   { name: 'Jerome Powell', role: 'Chairman', company: 'Federal Reserve', industry: 'Politics', primaryAssets: ['SPY', 'DXY', 'GC=F'], relatedSectors: ['Index', 'Financials'] },
   { name: 'Christine Lagarde', role: 'President', company: 'ECB', industry: 'Politics', primaryAssets: ['DXY', 'SPY'], relatedSectors: ['Index', 'Financials'] },
   { name: 'Janet Yellen', role: 'Secretary', company: 'US Treasury', industry: 'Politics', primaryAssets: ['SPY', 'DXY'], relatedSectors: ['Index', 'Financials'] },
@@ -550,14 +551,14 @@ const sp500Companies = [
   { symbol: 'PNW', name: 'Pinnacle West Capital', asset_type: 'stock', sector: 'Utilities' },
   { symbol: 'NRG', name: 'NRG Energy', asset_type: 'stock', sector: 'Utilities' },
   
-  // Crypto, Indices, Commodities
+  // Crypto, Indices, Commodities - Indices link to both Trump (President) and Powell (Fed Chair)
   { symbol: 'BTC-USD', name: 'Bitcoin', asset_type: 'crypto', sector: 'Cryptocurrency', primaryPerson: 'Michael Saylor' },
-  { symbol: 'ETH-USD', name: 'Ethereum', asset_type: 'crypto', sector: 'Cryptocurrency' },
-  { symbol: 'SPY', name: 'S&P 500 ETF', asset_type: 'index', sector: 'Index', primaryPerson: 'Jerome Powell' },
-  { symbol: 'QQQ', name: 'NASDAQ 100 ETF', asset_type: 'index', sector: 'Index' },
+  { symbol: 'ETH-USD', name: 'Ethereum', asset_type: 'crypto', sector: 'Cryptocurrency', primaryPerson: 'Changpeng Zhao' },
+  { symbol: 'SPY', name: 'S&P 500 ETF', asset_type: 'index', sector: 'Index', primaryPerson: 'Donald Trump' },
+  { symbol: 'QQQ', name: 'NASDAQ 100 ETF', asset_type: 'index', sector: 'Index', primaryPerson: 'Donald Trump' },
   { symbol: 'DXY', name: 'US Dollar Index', asset_type: 'index', sector: 'Currency', primaryPerson: 'Jerome Powell' },
-  { symbol: 'GC=F', name: 'Gold Futures', asset_type: 'commodity', sector: 'Commodities' },
-  { symbol: 'CL=F', name: 'Crude Oil Futures', asset_type: 'commodity', sector: 'Commodities' },
+  { symbol: 'GC=F', name: 'Gold Futures', asset_type: 'commodity', sector: 'Commodities', primaryPerson: 'Ray Dalio' },
+  { symbol: 'CL=F', name: 'Crude Oil Futures', asset_type: 'commodity', sector: 'Commodities', primaryPerson: 'Darren Woods' },
 ];
 
 // Sector similarity map for industry weighting
