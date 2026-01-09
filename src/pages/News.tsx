@@ -1,25 +1,35 @@
 import { useState } from "react";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, RefreshCw, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { NewsCard } from "@/components/NewsCard";
-import { newsItems } from "@/data/mockData";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNews, useCrawlNews, useAnalyzeArticle, useComputeInfluence } from "@/hooks/useInfluenceData";
+import { useToast } from "@/hooks/use-toast";
 
 type SentimentFilter = 'all' | 'positive' | 'negative' | 'neutral';
 
 const News = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [sentimentFilter, setSentimentFilter] = useState<SentimentFilter>('all');
+  const [crawlQuery, setCrawlQuery] = useState("financial markets news today");
 
-  const filteredNews = newsItems.filter((news) => {
-    const matchesSearch = 
-      news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      news.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      news.relatedPeople.some(p => p.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      news.relatedAssets.some(a => a.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesSentiment = sentimentFilter === 'all' || news.sentiment === sentimentFilter;
-    return matchesSearch && matchesSentiment;
+  const { data: news, isLoading, refetch } = useNews({
+    sentiment: sentimentFilter === 'all' ? undefined : sentimentFilter,
   });
+
+  const crawlMutation = useCrawlNews();
+  const analyzeMutation = useAnalyzeArticle();
+  const computeMutation = useComputeInfluence();
+
+  const filteredNews = news?.filter((item) => {
+    if (!searchQuery) return true;
+    return (
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (item.summary?.toLowerCase() || '').includes(searchQuery.toLowerCase())
+    );
+  }) || [];
 
   const sentiments: { value: SentimentFilter; label: string; color: string }[] = [
     { value: 'all', label: 'All', color: '' },
@@ -29,9 +39,49 @@ const News = () => {
   ];
 
   // Stats
-  const posCount = newsItems.filter(n => n.sentiment === 'positive').length;
-  const negCount = newsItems.filter(n => n.sentiment === 'negative').length;
-  const neutralCount = newsItems.filter(n => n.sentiment === 'neutral').length;
+  const posCount = news?.filter(n => n.sentiment === 'positive').length || 0;
+  const negCount = news?.filter(n => n.sentiment === 'negative').length || 0;
+  const neutralCount = news?.filter(n => n.sentiment === 'neutral').length || 0;
+
+  const handleCrawlNews = async () => {
+    crawlMutation.mutate(crawlQuery, {
+      onSuccess: async (data) => {
+        toast({
+          title: "News Crawled",
+          description: `Found ${data.crawled} articles, stored ${data.stored} new ones.`,
+        });
+        refetch();
+        
+        // Auto-analyze new articles
+        if (data.articles && data.articles.length > 0) {
+          toast({
+            title: "Analyzing Articles",
+            description: "Running NLP analysis on new articles...",
+          });
+          
+          for (const article of data.articles) {
+            await analyzeMutation.mutateAsync(article.id);
+          }
+          
+          // Recompute influence after analysis
+          await computeMutation.mutateAsync();
+          
+          toast({
+            title: "Analysis Complete",
+            description: "All articles analyzed and influence scores updated.",
+          });
+          refetch();
+        }
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "Failed to crawl news. Check your Firecrawl connection.",
+          variant: "destructive",
+        });
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen pt-20">
@@ -44,6 +94,40 @@ const News = () => {
           <p className="text-muted-foreground max-w-2xl">
             Real-time market-moving news analyzed for sentiment and entity relationships.
           </p>
+        </div>
+
+        {/* Crawl Section */}
+        <div className="glass-card p-6 mb-8">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <label className="text-sm text-muted-foreground mb-2 block">Search Query for News Crawling</label>
+              <Input
+                placeholder="e.g., Tesla stock news, Federal Reserve..."
+                value={crawlQuery}
+                onChange={(e) => setCrawlQuery(e.target.value)}
+                className="bg-secondary/50 border-border"
+              />
+            </div>
+            <div className="flex items-end gap-2">
+              <Button
+                onClick={handleCrawlNews}
+                disabled={crawlMutation.isPending || analyzeMutation.isPending}
+                className="gap-2"
+              >
+                {crawlMutation.isPending ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Sparkles className="w-4 h-4" />
+                )}
+                {crawlMutation.isPending ? 'Crawling...' : 'Crawl News'}
+              </Button>
+            </div>
+          </div>
+          {analyzeMutation.isPending && (
+            <p className="text-sm text-muted-foreground mt-3">
+              Analyzing articles with AI...
+            </p>
+          )}
         </div>
 
         {/* Stats */}
@@ -68,7 +152,7 @@ const News = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Search news, people, or assets..."
+                placeholder="Search news..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-secondary/50 border-border"
@@ -98,15 +182,27 @@ const News = () => {
         </div>
 
         {/* News Grid */}
-        <div className="space-y-4">
-          {filteredNews.map((news) => (
-            <NewsCard key={news.id} news={news} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-32 rounded-xl" />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredNews.map((item) => (
+              <NewsCard key={item.id} news={item} />
+            ))}
+          </div>
+        )}
 
-        {filteredNews.length === 0 && (
+        {!isLoading && filteredNews.length === 0 && (
           <div className="glass-card p-12 text-center">
-            <p className="text-muted-foreground">No news found matching your criteria.</p>
+            <p className="text-muted-foreground mb-4">No news found. Try crawling some news!</p>
+            <Button onClick={handleCrawlNews} disabled={crawlMutation.isPending}>
+              <Sparkles className="w-4 h-4 mr-2" />
+              Crawl News Now
+            </Button>
           </div>
         )}
       </div>

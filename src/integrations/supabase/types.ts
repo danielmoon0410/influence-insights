@@ -14,7 +14,269 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      asset_mentions: {
+        Row: {
+          article_id: string
+          asset_id: string
+          context: string | null
+          created_at: string
+          id: string
+          mention_count: number | null
+        }
+        Insert: {
+          article_id: string
+          asset_id: string
+          context?: string | null
+          created_at?: string
+          id?: string
+          mention_count?: number | null
+        }
+        Update: {
+          article_id?: string
+          asset_id?: string
+          context?: string | null
+          created_at?: string
+          id?: string
+          mention_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_mentions_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_mentions_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assets: {
+        Row: {
+          asset_type: string
+          created_at: string
+          id: string
+          name: string
+          sector: string | null
+          symbol: string
+        }
+        Insert: {
+          asset_type?: string
+          created_at?: string
+          id?: string
+          name: string
+          sector?: string | null
+          symbol: string
+        }
+        Update: {
+          asset_type?: string
+          created_at?: string
+          id?: string
+          name?: string
+          sector?: string | null
+          symbol?: string
+        }
+        Relationships: []
+      }
+      influence_logs: {
+        Row: {
+          id: string
+          influence_score: number
+          logged_at: string
+          person_id: string
+        }
+        Insert: {
+          id?: string
+          influence_score: number
+          logged_at?: string
+          person_id: string
+        }
+        Update: {
+          id?: string
+          influence_score?: number
+          logged_at?: string
+          person_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "influence_logs_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      news_articles: {
+        Row: {
+          content: string | null
+          crawled_at: string
+          id: string
+          published_at: string | null
+          sentiment: string | null
+          sentiment_score: number | null
+          source_name: string | null
+          source_url: string
+          summary: string | null
+          title: string
+        }
+        Insert: {
+          content?: string | null
+          crawled_at?: string
+          id?: string
+          published_at?: string | null
+          sentiment?: string | null
+          sentiment_score?: number | null
+          source_name?: string | null
+          source_url: string
+          summary?: string | null
+          title: string
+        }
+        Update: {
+          content?: string | null
+          crawled_at?: string
+          id?: string
+          published_at?: string | null
+          sentiment?: string | null
+          sentiment_score?: number | null
+          source_name?: string | null
+          source_url?: string
+          summary?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      people: {
+        Row: {
+          avatar_url: string | null
+          company: string | null
+          created_at: string
+          id: string
+          industry: string
+          influence_score: number | null
+          name: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          company?: string | null
+          created_at?: string
+          id?: string
+          industry: string
+          influence_score?: number | null
+          name: string
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          company?: string | null
+          created_at?: string
+          id?: string
+          industry?: string
+          influence_score?: number | null
+          name?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      person_asset_relationships: {
+        Row: {
+          asset_id: string
+          co_mention_count: number | null
+          correlation_score: number | null
+          id: string
+          influence_strength: number | null
+          last_co_mention_at: string | null
+          person_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          co_mention_count?: number | null
+          correlation_score?: number | null
+          id?: string
+          influence_strength?: number | null
+          last_co_mention_at?: string | null
+          person_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          co_mention_count?: number | null
+          correlation_score?: number | null
+          id?: string
+          influence_strength?: number | null
+          last_co_mention_at?: string | null
+          person_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "person_asset_relationships_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "person_asset_relationships_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      person_mentions: {
+        Row: {
+          article_id: string
+          context: string | null
+          created_at: string
+          id: string
+          mention_count: number | null
+          person_id: string
+        }
+        Insert: {
+          article_id: string
+          context?: string | null
+          created_at?: string
+          id?: string
+          mention_count?: number | null
+          person_id: string
+        }
+        Update: {
+          article_id?: string
+          context?: string | null
+          created_at?: string
+          id?: string
+          mention_count?: number | null
+          person_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "person_mentions_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "person_mentions_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
