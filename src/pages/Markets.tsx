@@ -80,15 +80,17 @@ const Markets = () => {
                 return (
                   <div 
                     key={company.symbol} 
-                    className={`relative cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`}
+                    className={`cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`}
                     onClick={() => handleSelect(fullSymbol, company.name)}
                   >
-                    <div className="absolute top-2 left-2 z-10 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium text-muted-foreground">
-                      #{idx + 1} • {company.marketCap}
+                    {/* Ranking header above the widget */}
+                    <div className="bg-primary/10 border-b border-primary/20 px-3 py-2 rounded-t-lg flex items-center justify-between">
+                      <span className="text-sm font-semibold text-primary">#{idx + 1}</span>
+                      <span className="text-xs font-medium text-muted-foreground">{company.marketCap}</span>
                     </div>
                     <TradingViewWidget
                       symbol={fullSymbol}
-                      height={220}
+                      height={200}
                     />
                   </div>
                 );

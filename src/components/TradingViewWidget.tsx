@@ -56,13 +56,22 @@ interface TradingViewAdvancedChartProps {
   height?: number;
 }
 
-export const TradingViewAdvancedChart = memo(({ symbol, height = 500 }: TradingViewAdvancedChartProps) => {
+export const TradingViewAdvancedChart = ({ symbol, height = 500 }: TradingViewAdvancedChartProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const containerIdRef = useRef(`tradingview-chart-${Date.now()}`);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Clear previous widget
     containerRef.current.innerHTML = '';
+    
+    // Create a unique container for the widget
+    const widgetContainer = document.createElement('div');
+    widgetContainer.id = containerIdRef.current;
+    widgetContainer.style.height = '100%';
+    widgetContainer.style.width = '100%';
+    containerRef.current.appendChild(widgetContainer);
 
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -86,7 +95,7 @@ export const TradingViewAdvancedChart = memo(({ symbol, height = 500 }: TradingV
       gridColor: "rgba(30, 41, 59, 0.5)",
     });
 
-    containerRef.current.appendChild(script);
+    widgetContainer.appendChild(script);
 
     return () => {
       if (containerRef.current) {
@@ -100,7 +109,7 @@ export const TradingViewAdvancedChart = memo(({ symbol, height = 500 }: TradingV
       <div ref={containerRef} style={{ height: "100%", width: "100%" }} />
     </div>
   );
-});
+};
 
 TradingViewAdvancedChart.displayName = "TradingViewAdvancedChart";
 
