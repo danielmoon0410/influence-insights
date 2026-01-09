@@ -62,6 +62,7 @@ export type Database = {
           created_at: string
           id: string
           influence_score: number | null
+          market_cap: number | null
           name: string
           sector: string | null
           symbol: string
@@ -71,6 +72,7 @@ export type Database = {
           created_at?: string
           id?: string
           influence_score?: number | null
+          market_cap?: number | null
           name: string
           sector?: string | null
           symbol: string
@@ -80,6 +82,7 @@ export type Database = {
           created_at?: string
           id?: string
           influence_score?: number | null
+          market_cap?: number | null
           name?: string
           sector?: string | null
           symbol?: string
