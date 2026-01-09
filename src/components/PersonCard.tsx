@@ -68,8 +68,13 @@ export const PersonCard = ({ person, rank }: PersonCardProps) => {
   const id = isDbPerson(person) ? person.id : String(person.id);
   const name = person.name;
   
-  // Use real portrait if available, otherwise generate from name seed
+  // Use database avatar_url if available, then real portraits, then generate from name
   const getAvatarUrl = () => {
+    // First check if database has a valid avatar URL (from fetched portraits)
+    if (isDbPerson(person) && person.avatar_url && person.avatar_url.startsWith('http')) {
+      return person.avatar_url;
+    }
+    // Then check our static portrait mapping
     if (realPortraits[name]) {
       return realPortraits[name];
     }

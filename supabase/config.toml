@@ -14,3 +14,9 @@ verify_jwt = false
 
 [functions.fetch-market-cap-rankings]
 verify_jwt = false
+
+[functions.update-market-caps]
+verify_jwt = false
+
+[functions.fetch-person-portraits]
+verify_jwt = false
