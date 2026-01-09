@@ -8,6 +8,7 @@ import { AssetCard } from "@/components/AssetCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePeople, useAssets, useComputeInfluence } from "@/hooks/useInfluenceData";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 type IndustryFilter = 'all' | 'Technology' | 'Finance' | 'Business' | 'Politics';
 type SectorFilter = 'all' | 'Technology' | 'Financials' | 'Healthcare' | 'Consumer Discretionary' | 'Communication Services' | 'Industrials' | 'Energy';
@@ -72,10 +73,20 @@ const PowerRankings = () => {
 
   const handleRecomputeScores = async () => {
     computeInfluenceMutation.mutate(undefined, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        // Also update market caps and portraits
+        try {
+          await Promise.all([
+            supabase.functions.invoke('update-market-caps'),
+            supabase.functions.invoke('fetch-person-portraits'),
+          ]);
+        } catch (err) {
+          console.error('Error updating market caps or portraits:', err);
+        }
+        
         toast({
           title: "Scores Updated",
-          description: "Influence scores recomputed with time decay and normalization.",
+          description: "Influence scores, market caps, and portraits updated.",
         });
         refetchPeople();
         refetchAssets();
