@@ -3,6 +3,8 @@ import {
   fetchPeople,
   fetchPerson,
   fetchPersonAssets,
+  fetchAssets,
+  fetchAssetPeople,
   fetchNews,
   fetchPersonNews,
   fetchStats,
@@ -11,6 +13,7 @@ import {
   computeInfluence,
   seedDatabase,
   Person,
+  Asset,
   NewsArticle,
 } from '@/lib/api/influence-graph';
 
@@ -37,6 +40,23 @@ export function usePersonAssets(personId: string | undefined) {
     queryKey: ['personAssets', personId],
     queryFn: () => fetchPersonAssets(personId!),
     enabled: !!personId,
+  });
+}
+
+// Hook to fetch all assets ranked by influence
+export function useAssets(options?: { limit?: number; sector?: string; search?: string }) {
+  return useQuery({
+    queryKey: ['assets', options],
+    queryFn: () => fetchAssets(options),
+  });
+}
+
+// Hook to fetch people related to an asset
+export function useAssetPeople(assetId: string | undefined) {
+  return useQuery({
+    queryKey: ['assetPeople', assetId],
+    queryFn: () => fetchAssetPeople(assetId!),
+    enabled: !!assetId,
   });
 }
 
