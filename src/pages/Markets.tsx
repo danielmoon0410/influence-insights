@@ -80,7 +80,7 @@ const Markets = () => {
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-4xl font-bold mb-3">
-            Global <span className="text-gradient-primary">Real-time market data powered by TradingView. Track major indices and top companies </span>
+            Global <span className="text-gradient-primary">Asset Graphs</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl">
             Real-time market data powered by TradingView. Track major indices and top companies by market cap.
@@ -112,9 +112,21 @@ const Markets = () => {
           <TabsContent value="companies">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {topCompaniesByMarketCap.map((company, idx) => {
-              const fullSymbol = `${company.exchange}:${company.symbol}`;
-              return;
-            })}
+                const fullSymbol = `${company.exchange}:${company.symbol}`;
+                return (
+                  <div 
+                    key={company.symbol} 
+                    className={`cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`}
+                    onClick={() => handleSelect(fullSymbol, company.name)}
+                  >
+                    <div className="bg-primary/10 border-b border-primary/20 px-3 py-2 rounded-t-lg flex items-center justify-between">
+                      <span className="text-sm font-semibold text-primary">#{idx + 1}</span>
+                      <span className="text-xs font-medium text-muted-foreground">{company.marketCap}</span>
+                    </div>
+                    <TradingViewWidget symbol={fullSymbol} height={200} />
+                  </div>
+                );
+              })}
             </div>
           </TabsContent>
         </Tabs>
