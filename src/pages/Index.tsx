@@ -8,11 +8,20 @@ import { NewsCard } from "@/components/NewsCard";
 import { useStats, useNews, useSeedDatabase } from "@/hooks/useInfluenceData";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-
 const Index = () => {
-  const { toast } = useToast();
-  const { data: stats, isLoading: statsLoading } = useStats();
-  const { data: news, isLoading: newsLoading } = useNews({ limit: 4 });
+  const {
+    toast
+  } = useToast();
+  const {
+    data: stats,
+    isLoading: statsLoading
+  } = useStats();
+  const {
+    data: news,
+    isLoading: newsLoading
+  } = useNews({
+    limit: 4
+  });
   const seedMutation = useSeedDatabase();
 
   // Auto-seed database if empty
@@ -22,20 +31,17 @@ const Index = () => {
         onSuccess: () => {
           toast({
             title: "Database Initialized",
-            description: "Sample data has been loaded successfully.",
+            description: "Sample data has been loaded successfully."
           });
-        },
+        }
       });
     }
   }, [stats]);
-
   const formatNumber = (num: number) => {
     if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
     return num.toString();
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <GraphVisualization />
@@ -47,17 +53,23 @@ const Index = () => {
               <span className="text-sm text-primary font-medium">AI-Powered Financial Intelligence</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <span className="text-foreground">Person–Asset</span>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-fade-in" style={{
+            animationDelay: '0.1s'
+          }}>
+              <span className="text-foreground">Market Voice</span>
               <br />
-              <span className="text-gradient-primary">Influence Graph</span>
+              <span className="text-gradient-primary">Words Move Markets</span>
             </h1>
 
-            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{
+            animationDelay: '0.2s'
+          }}>
               Track how real-world news events affect relationships between public figures and financial assets using NLP, embeddings, and graph-based scoring.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{
+            animationDelay: '0.3s'
+          }}>
               <Button asChild size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-8">
                 <Link to="/rankings">
                   View Power Rankings
@@ -82,44 +94,14 @@ const Index = () => {
       <section className="py-20 border-t border-border/50">
         <div className="container px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {statsLoading ? (
-              <>
-                {[...Array(4)].map((_, i) => (
-                  <Skeleton key={i} className="h-32 rounded-xl" />
-                ))}
-              </>
-            ) : (
-              <>
-                <StatCard
-                  label="People Tracked"
-                  value={formatNumber(stats?.peopleCount || 0)}
-                  change={12.5}
-                  icon={Users}
-                  iconColor="text-primary"
-                />
-                <StatCard
-                  label="Assets Monitored"
-                  value={formatNumber(stats?.assetsCount || 0)}
-                  change={8.3}
-                  icon={BarChart3}
-                  iconColor="text-success"
-                />
-                <StatCard
-                  label="News Articles"
-                  value={formatNumber(stats?.newsCount || 0)}
-                  change={5.2}
-                  icon={Newspaper}
-                  iconColor="text-accent"
-                />
-                <StatCard
-                  label="Graph Connections"
-                  value={formatNumber(stats?.relationshipsCount || 0)}
-                  change={15.8}
-                  icon={Network}
-                  iconColor="text-node-purple"
-                />
-              </>
-            )}
+            {statsLoading ? <>
+                {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-32 rounded-xl" />)}
+              </> : <>
+                <StatCard label="People Tracked" value={formatNumber(stats?.peopleCount || 0)} change={12.5} icon={Users} iconColor="text-primary" />
+                <StatCard label="Assets Monitored" value={formatNumber(stats?.assetsCount || 0)} change={8.3} icon={BarChart3} iconColor="text-success" />
+                <StatCard label="News Articles" value={formatNumber(stats?.newsCount || 0)} change={5.2} icon={Newspaper} iconColor="text-accent" />
+                <StatCard label="Graph Connections" value={formatNumber(stats?.relationshipsCount || 0)} change={15.8} icon={Network} iconColor="text-node-purple" />
+              </>}
           </div>
         </div>
       </section>
@@ -186,20 +168,11 @@ const Index = () => {
             </Button>
           </div>
 
-          {newsLoading ? (
-            <div className="grid md:grid-cols-2 gap-6">
-              {[...Array(4)].map((_, i) => (
-                <Skeleton key={i} className="h-48 rounded-xl" />
-              ))}
-            </div>
-          ) : news && news.length > 0 ? (
-            <div className="grid md:grid-cols-2 gap-6">
-              {news.map((item) => (
-                <NewsCard key={item.id} news={item} />
-              ))}
-            </div>
-          ) : (
-            <div className="glass-card p-12 text-center">
+          {newsLoading ? <div className="grid md:grid-cols-2 gap-6">
+              {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-48 rounded-xl" />)}
+            </div> : news && news.length > 0 ? <div className="grid md:grid-cols-2 gap-6">
+              {news.map(item => <NewsCard key={item.id} news={item} />)}
+            </div> : <div className="glass-card p-12 text-center">
               <Newspaper className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground mb-4">No news articles yet. Click below to crawl some news!</p>
               <Button asChild variant="outline">
@@ -208,8 +181,7 @@ const Index = () => {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
-            </div>
-          )}
+            </div>}
         </div>
       </section>
 
@@ -232,8 +204,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
