@@ -88,7 +88,7 @@ export async function fetchPerson(id: string): Promise<Person | null> {
   return data;
 }
 
-// Fetch assets related to a person
+// Fetch assets related to a person (permanent CEO links first, then by influence)
 export async function fetchPersonAssets(personId: string): Promise<(PersonAssetRelationship & { assets: Asset })[]> {
   const { data, error } = await supabase
     .from('person_asset_relationships')
@@ -97,6 +97,7 @@ export async function fetchPersonAssets(personId: string): Promise<(PersonAssetR
       assets (*)
     `)
     .eq('person_id', personId)
+    .order('correlation_score', { ascending: false })
     .order('influence_strength', { ascending: false })
     .limit(5);
 
@@ -166,12 +167,13 @@ export async function fetchAssets(options?: {
   return (data || []) as Asset[];
 }
 
-// Fetch people related to an asset
+// Fetch people related to an asset (permanent CEO links first, then by influence)
 export async function fetchAssetPeople(assetId: string): Promise<any[]> {
   const { data, error } = await supabase
     .from('person_asset_relationships')
     .select(`*, people (*)`)
     .eq('asset_id', assetId)
+    .order('correlation_score', { ascending: false })
     .order('influence_strength', { ascending: false })
     .limit(10);
 
