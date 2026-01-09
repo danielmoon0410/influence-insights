@@ -20,20 +20,10 @@ export const PersonCard = ({ person, rank }: PersonCardProps) => {
 
   const name = person.name;
   
-  // Use a more realistic avatar style - avataaars for professional look
-  const getAvatarUrl = () => {
-    if (isDbPerson(person) && person.avatar_url) {
-      return person.avatar_url;
-    }
-    if (!isDbPerson(person) && person.avatarUrl) {
-      return person.avatarUrl;
-    }
-    // Generate a consistent professional avatar using the name as seed
-    const seed = encodeURIComponent(name.replace(/\s+/g, ''));
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
-  };
-  
-  const avatar = getAvatarUrl();
+  // Always generate cartoon-style avatars using DiceBear avataaars for consistent look
+  // (Database may have old initials-style URLs, so we override those)
+  const seed = encodeURIComponent(name.replace(/\s+/g, ''));
+  const avatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
 
   const subtitle = isDbPerson(person)
     ? `${person.role}${person.company ? ` at ${person.company}` : ''}`
