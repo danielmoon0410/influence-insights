@@ -3,18 +3,18 @@ import { TradingViewWidget, TradingViewAdvancedChart, TradingViewTicker } from "
 import { marketIndices, topCompanies } from "@/data/mockData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Top 10 companies ordered by market cap (Jan 2025)
+// Top 10 companies ordered by market cap (from TradingView)
 const topCompaniesByMarketCap = [
-  { symbol: 'AAPL', name: 'Apple Inc.', exchange: 'NASDAQ', marketCap: '3.68T' },
-  { symbol: 'NVDA', name: 'NVIDIA', exchange: 'NASDAQ', marketCap: '3.36T' },
-  { symbol: 'MSFT', name: 'Microsoft', exchange: 'NASDAQ', marketCap: '3.13T' },
-  { symbol: 'GOOGL', name: 'Alphabet', exchange: 'NASDAQ', marketCap: '2.35T' },
-  { symbol: 'AMZN', name: 'Amazon', exchange: 'NASDAQ', marketCap: '2.34T' },
-  { symbol: 'META', name: 'Meta Platforms', exchange: 'NASDAQ', marketCap: '1.49T' },
-  { symbol: 'TSLA', name: 'Tesla', exchange: 'NASDAQ', marketCap: '1.34T' },
-  { symbol: 'BRK.B', name: 'Berkshire Hathaway', exchange: 'NYSE', marketCap: '1.01T' },
-  { symbol: 'AVGO', name: 'Broadcom', exchange: 'NASDAQ', marketCap: '1.01T' },
-  { symbol: 'TSM', name: 'TSMC', exchange: 'NYSE', marketCap: '0.98T' },
+  { symbol: 'NVDA', name: 'NVIDIA Corporation', exchange: 'NASDAQ', marketCap: '4.6T' },
+  { symbol: 'GOOG', name: 'Alphabet Inc.', exchange: 'NASDAQ', marketCap: '3.89T' },
+  { symbol: 'AAPL', name: 'Apple Inc.', exchange: 'NASDAQ', marketCap: '3.85T' },
+  { symbol: 'MSFT', name: 'Microsoft', exchange: 'NASDAQ', marketCap: '3.59T' },
+  { symbol: 'AMZN', name: 'Amazon', exchange: 'NASDAQ', marketCap: '2.58T' },
+  { symbol: 'META', name: 'Meta Platforms', exchange: 'NASDAQ', marketCap: '1.64T' },
+  { symbol: 'AVGO', name: 'Broadcom Inc.', exchange: 'NASDAQ', marketCap: '1.63T' },
+  { symbol: 'TSLA', name: 'Tesla', exchange: 'NASDAQ', marketCap: '1.43T' },
+  { symbol: 'BRK.A', name: 'Berkshire Hathaway', exchange: 'NYSE', marketCap: '1.07T' },
+  { symbol: 'LLY', name: 'Eli Lilly', exchange: 'NYSE', marketCap: '1.05T' },
 ];
 
 const Markets = () => {
