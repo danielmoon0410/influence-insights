@@ -1,73 +1,142 @@
-# Welcome to your Lovable project
+# Influence Insights
 
-## Project info
+A real-time influence tracking platform that maps relationships between influential people and market assets using AI-powered news analysis.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Power Rankings**: Track influential figures across industries with real-time influence scores
+- **Market Influence**: See how people impact specific assets (stocks, crypto, etc.)
+- **News Analysis**: AI-powered sentiment analysis of news articles
+- **Relationship Mapping**: Visual correlation between people and assets
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, shadcn/ui
+- **Backend**: Supabase (Lovable Cloud)
+- **AI**: Lovable AI for news analysis and entity extraction
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Local Development Setup
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18+ and npm
+- Git
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Quick Start
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# 1. Clone the repository
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 2. Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 3. Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Environment Variables
 
-**Use GitHub Codespaces**
+The `.env` file is automatically configured with Lovable Cloud credentials. No manual setup required.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # shadcn/ui components
+│   ├── PersonCard.tsx  # Person display card
+│   ├── AssetCard.tsx   # Asset display card
+│   ├── NewsCard.tsx    # News article card
+│   └── ...
+├── pages/              # Route pages
+│   ├── Index.tsx       # Dashboard
+│   ├── PowerRankings.tsx
+│   ├── Markets.tsx
+│   ├── News.tsx
+│   └── ...
+├── hooks/              # Custom React hooks
+│   └── useInfluenceData.ts  # Data fetching hooks
+├── lib/
+│   └── api/            # API functions
+│       └── influence-graph.ts
+└── integrations/
+    └── supabase/       # Supabase client & types
 
-This project is built with:
+supabase/
+└── functions/          # Edge functions
+    ├── seed-data/      # Seed initial data
+    ├── crawl-news/     # Fetch news articles
+    ├── analyze-article/# AI analysis
+    └── compute-influence/ # Calculate scores
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Backend Functions
 
-## How can I deploy this project?
+The app uses Supabase Edge Functions for backend logic:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+| Function | Description |
+|----------|-------------|
+| `seed-data` | Populates initial people, assets, and relationships |
+| `crawl-news` | Fetches news articles using Firecrawl API |
+| `analyze-article` | AI-powered entity extraction and sentiment analysis |
+| `compute-influence` | Calculates influence scores based on mentions |
 
-## Can I connect a custom domain to my Lovable project?
+### Triggering Functions
 
-Yes, you can!
+Functions are called automatically via the UI or can be triggered manually:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```typescript
+import { supabase } from "@/integrations/supabase/client";
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+// Seed database
+await supabase.functions.invoke('seed-data', { body: { force: true } });
+
+// Crawl news
+await supabase.functions.invoke('crawl-news', { body: { query: 'tech news' } });
+
+// Analyze article
+await supabase.functions.invoke('analyze-article', { body: { articleId: '...' } });
+
+// Compute influence
+await supabase.functions.invoke('compute-influence');
+```
+
+## Database Schema
+
+| Table | Description |
+|-------|-------------|
+| `people` | Influential figures with influence scores |
+| `assets` | Stocks, crypto, and other tradeable assets |
+| `news_articles` | Crawled and analyzed news articles |
+| `person_mentions` | Links between articles and people |
+| `asset_mentions` | Links between articles and assets |
+| `person_asset_relationships` | Correlation between people and assets |
+| `influence_logs` | Historical influence score tracking |
+
+## Available Scripts
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run lint     # Run ESLint
+```
+
+## Deployment
+
+Click **Publish** in Lovable to deploy your app. Frontend changes require clicking "Update" in the publish dialog, while backend (edge function) changes deploy automatically.
+
+## Managing Data
+
+Access the database through the **Cloud** tab in Lovable:
+- View and edit tables directly
+- Add/modify/delete rows
+- Export data as needed
+
+## License
+
+MIT
