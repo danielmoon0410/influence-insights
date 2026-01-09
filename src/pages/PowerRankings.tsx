@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, RefreshCw, Users, BarChart3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,18 @@ const PowerRankings = () => {
   });
   
   const computeInfluenceMutation = useComputeInfluence();
+
+  // Update market caps and portraits on initial load (background, non-blocking)
+  useEffect(() => {
+    // Fire and forget - don't block the UI
+    supabase.functions.invoke('update-market-caps').then(() => {
+      refetchAssets();
+    }).catch(err => console.error('Error updating market caps:', err));
+    
+    supabase.functions.invoke('fetch-person-portraits').then(() => {
+      refetchPeople();
+    }).catch(err => console.error('Error updating portraits:', err));
+  }, []);
 
   const filteredPeople = useMemo(() => {
     if (!people) return [];
@@ -74,19 +86,9 @@ const PowerRankings = () => {
   const handleRecomputeScores = async () => {
     computeInfluenceMutation.mutate(undefined, {
       onSuccess: async () => {
-        // Also update market caps and portraits
-        try {
-          await Promise.all([
-            supabase.functions.invoke('update-market-caps'),
-            supabase.functions.invoke('fetch-person-portraits'),
-          ]);
-        } catch (err) {
-          console.error('Error updating market caps or portraits:', err);
-        }
-        
         toast({
           title: "Scores Updated",
-          description: "Influence scores, market caps, and portraits updated.",
+          description: "Influence scores recomputed.",
         });
         refetchPeople();
         refetchAssets();
