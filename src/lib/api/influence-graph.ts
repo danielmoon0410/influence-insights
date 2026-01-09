@@ -18,6 +18,7 @@ export interface Asset {
   name: string;
   asset_type: string;
   sector: string | null;
+  influence_score: number;
   created_at: string;
 }
 
@@ -145,12 +146,34 @@ export async function fetchPersonNews(personId: string, limit = 10): Promise<New
   return (data || []).map(d => d.news_articles as unknown as NewsArticle).filter(Boolean);
 }
 
-// Fetch all assets
-export async function fetchAssets(): Promise<Asset[]> {
-  const { data, error } = await supabase
+// Fetch all assets ranked by influence
+export async function fetchAssets(options?: {
+  limit?: number;
+  sector?: string;
+  search?: string;
+}): Promise<Asset[]> {
+  let query = supabase
     .from('assets')
     .select('*')
-    .order('symbol');
+    .order('influence_score', { ascending: false });
+
+  if (options?.limit) query = query.limit(options.limit);
+  if (options?.sector && options.sector !== 'all') query = query.eq('sector', options.sector);
+  if (options?.search) query = query.or(`symbol.ilike.%${options.search}%,name.ilike.%${options.search}%`);
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data || []) as Asset[];
+}
+
+// Fetch people related to an asset
+export async function fetchAssetPeople(assetId: string): Promise<any[]> {
+  const { data, error } = await supabase
+    .from('person_asset_relationships')
+    .select(`*, people (*)`)
+    .eq('asset_id', assetId)
+    .order('influence_strength', { ascending: false })
+    .limit(10);
 
   if (error) throw error;
   return data || [];
