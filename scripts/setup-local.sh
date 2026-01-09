@@ -25,22 +25,29 @@ echo -e "${YELLOW}Checking Supabase CLI...${NC}"
 if ! command -v supabase &> /dev/null; then
     echo -e "${YELLOW}Supabase CLI not found. Installing...${NC}"
     
-    # Detect OS and install accordingly
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS
+    # Try npm first (most reliable cross-platform)
+    if command -v npm &> /dev/null; then
+        echo -e "${YELLOW}Installing via npm...${NC}"
+        npm install -g supabase
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS - try Homebrew
         if command -v brew &> /dev/null; then
             brew install supabase/tap/supabase
         else
-            echo -e "${RED}Error: Homebrew not found. Please install Homebrew first or install Supabase CLI manually.${NC}"
-            echo "Visit: https://supabase.com/docs/guides/cli"
+            echo -e "${RED}Error: Neither npm nor Homebrew found. Please install Supabase CLI manually.${NC}"
+            echo "Run: npm install -g supabase"
             exit 1
         fi
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        # Linux
-        curl -fsSL https://raw.githubusercontent.com/supabase/cli/main/scripts/install.sh | sh
+        # Linux - download binary directly
+        echo -e "${YELLOW}Installing via binary download...${NC}"
+        curl -fsSL https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz -o /tmp/supabase.tar.gz
+        tar -xzf /tmp/supabase.tar.gz -C /tmp
+        sudo mv /tmp/supabase /usr/local/bin/
+        rm /tmp/supabase.tar.gz
     else
         echo -e "${RED}Error: Unsupported OS. Please install Supabase CLI manually.${NC}"
-        echo "Visit: https://supabase.com/docs/guides/cli"
+        echo "Run: npm install -g supabase"
         exit 1
     fi
 fi
