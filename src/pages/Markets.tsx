@@ -3,31 +3,76 @@ import { TradingViewWidget, TradingViewAdvancedChart, TradingViewTicker } from "
 import { marketIndices, topCompanies } from "@/data/mockData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Top 10 companies ordered by market cap (from TradingView)
-const topCompaniesByMarketCap = [
-  { symbol: 'NVDA', name: 'NVIDIA Corporation', exchange: 'NASDAQ', marketCap: '4.6T' },
-  { symbol: 'GOOG', name: 'Alphabet Inc.', exchange: 'NASDAQ', marketCap: '3.89T' },
-  { symbol: 'AAPL', name: 'Apple Inc.', exchange: 'NASDAQ', marketCap: '3.85T' },
-  { symbol: 'MSFT', name: 'Microsoft', exchange: 'NASDAQ', marketCap: '3.59T' },
-  { symbol: 'AMZN', name: 'Amazon', exchange: 'NASDAQ', marketCap: '2.58T' },
-  { symbol: 'META', name: 'Meta Platforms', exchange: 'NASDAQ', marketCap: '1.64T' },
-  { symbol: 'AVGO', name: 'Broadcom Inc.', exchange: 'NASDAQ', marketCap: '1.63T' },
-  { symbol: 'TSLA', name: 'Tesla', exchange: 'NASDAQ', marketCap: '1.43T' },
-  { symbol: 'BRK.A', name: 'Berkshire Hathaway', exchange: 'NYSE', marketCap: '1.07T' },
-  { symbol: 'LLY', name: 'Eli Lilly', exchange: 'NYSE', marketCap: '1.05T' },
-];
-
+// Top companies ordered by market cap (as of 2024)
+const topCompaniesByMarketCap = [{
+  symbol: 'AAPL',
+  name: 'Apple Inc.',
+  exchange: 'NASDAQ',
+  marketCap: '3.4T'
+}, {
+  symbol: 'MSFT',
+  name: 'Microsoft',
+  exchange: 'NASDAQ',
+  marketCap: '3.1T'
+}, {
+  symbol: 'NVDA',
+  name: 'NVIDIA',
+  exchange: 'NASDAQ',
+  marketCap: '2.9T'
+}, {
+  symbol: 'GOOGL',
+  name: 'Alphabet',
+  exchange: 'NASDAQ',
+  marketCap: '2.1T'
+}, {
+  symbol: 'AMZN',
+  name: 'Amazon',
+  exchange: 'NASDAQ',
+  marketCap: '2.0T'
+}, {
+  symbol: 'META',
+  name: 'Meta Platforms',
+  exchange: 'NASDAQ',
+  marketCap: '1.4T'
+}, {
+  symbol: 'BRK.B',
+  name: 'Berkshire Hathaway',
+  exchange: 'NYSE',
+  marketCap: '900B'
+}, {
+  symbol: 'TSLA',
+  name: 'Tesla',
+  exchange: 'NASDAQ',
+  marketCap: '800B'
+}, {
+  symbol: 'JPM',
+  name: 'JPMorgan Chase',
+  exchange: 'NYSE',
+  marketCap: '600B'
+}, {
+  symbol: 'V',
+  name: 'Visa Inc.',
+  exchange: 'NYSE',
+  marketCap: '550B'
+}, {
+  symbol: 'WMT',
+  name: 'Walmart',
+  exchange: 'NYSE',
+  marketCap: '530B'
+}, {
+  symbol: 'JNJ',
+  name: 'Johnson & Johnson',
+  exchange: 'NYSE',
+  marketCap: '380B'
+}];
 const Markets = () => {
   const [selectedSymbol, setSelectedSymbol] = useState("AMEX:SPY");
   const [selectedName, setSelectedName] = useState("S&P 500");
-
   const handleSelect = (symbol: string, name: string) => {
     setSelectedSymbol(symbol);
     setSelectedName(name);
   };
-
-  return (
-    <div className="min-h-screen pt-16">
+  return <div className="min-h-screen pt-16">
       {/* Ticker Tape */}
       <TradingViewTicker />
 
@@ -35,7 +80,7 @@ const Markets = () => {
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-4xl font-bold mb-3">
-            Global <span className="text-gradient-primary">Markets</span>
+            Global <span className="text-gradient-primary">Real-time market data powered by TradingView. Track major indices and top companies </span>
           </h1>
           <p className="text-muted-foreground max-w-2xl">
             Real-time market data powered by TradingView. Track major indices and top companies by market cap.
@@ -55,46 +100,26 @@ const Markets = () => {
 
           <TabsContent value="indices">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {marketIndices.map((index) => {
-                const fullSymbol = `${index.exchange}:${index.symbol}`;
-                return (
-                  <div 
-                    key={index.symbol} 
-                    className={`cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`}
-                    onClick={() => handleSelect(fullSymbol, index.name)}
-                  >
-                    <TradingViewWidget
-                      symbol={fullSymbol}
-                      height={220}
-                    />
-                  </div>
-                );
-              })}
+              {marketIndices.map(index => {
+              const fullSymbol = `${index.exchange}:${index.symbol}`;
+              return <div key={index.symbol} className={`cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`} onClick={() => handleSelect(fullSymbol, index.name)}>
+                    <TradingViewWidget symbol={fullSymbol} height={220} />
+                  </div>;
+            })}
             </div>
           </TabsContent>
 
           <TabsContent value="companies">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {topCompaniesByMarketCap.map((company, idx) => {
-                const fullSymbol = `${company.exchange}:${company.symbol}`;
-                return (
-                  <div 
-                    key={company.symbol} 
-                    className={`cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`}
-                    onClick={() => handleSelect(fullSymbol, company.name)}
-                  >
-                    {/* Ranking header above the widget */}
-                    <div className="bg-primary/10 border-b border-primary/20 px-3 py-2 rounded-t-lg flex items-center justify-between">
-                      <span className="text-sm font-semibold text-primary">#{idx + 1}</span>
-                      <span className="text-xs font-medium text-muted-foreground">{company.marketCap}</span>
+              const fullSymbol = `${company.exchange}:${company.symbol}`;
+              return <div key={company.symbol} className={`relative cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`} onClick={() => handleSelect(fullSymbol, company.name)}>
+                    <div className="absolute top-2 left-2 z-10 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium text-muted-foreground">
+                      #{idx + 1} • {company.marketCap}
                     </div>
-                    <TradingViewWidget
-                      symbol={fullSymbol}
-                      height={200}
-                    />
-                  </div>
-                );
-              })}
+                    <TradingViewWidget symbol={fullSymbol} height={220} />
+                  </div>;
+            })}
             </div>
           </TabsContent>
         </Tabs>
@@ -106,12 +131,9 @@ const Markets = () => {
               Advanced Chart: <span className="text-primary">{selectedName}</span>
             </h2>
           </div>
-          {/* key forces a full remount so TradingView re-initializes instantly */}
-          <TradingViewAdvancedChart key={selectedSymbol} symbol={selectedSymbol} height={500} />
+          <TradingViewAdvancedChart symbol={selectedSymbol} height={500} />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Markets;
