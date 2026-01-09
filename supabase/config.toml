@@ -1,1 +1,13 @@
 project_id = "hupzvwrfsusykfrvlhcv"
+
+[functions.crawl-news]
+verify_jwt = false
+
+[functions.analyze-article]
+verify_jwt = false
+
+[functions.compute-influence]
+verify_jwt = false
+
+[functions.seed-data]
+verify_jwt = false
