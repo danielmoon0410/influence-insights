@@ -113,12 +113,7 @@ const Markets = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {topCompaniesByMarketCap.map((company, idx) => {
               const fullSymbol = `${company.exchange}:${company.symbol}`;
-              return <div key={company.symbol} className={`relative cursor-pointer transition-all duration-200 rounded-lg ${selectedSymbol === fullSymbol ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'}`} onClick={() => handleSelect(fullSymbol, company.name)}>
-                    <div className="absolute top-2 left-2 z-10 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium text-muted-foreground">
-                      #{idx + 1} • {company.marketCap}
-                    </div>
-                    <TradingViewWidget symbol={fullSymbol} height={220} />
-                  </div>;
+              return;
             })}
             </div>
           </TabsContent>
