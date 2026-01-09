@@ -106,7 +106,8 @@ const Markets = () => {
               Advanced Chart: <span className="text-primary">{selectedName}</span>
             </h2>
           </div>
-          <TradingViewAdvancedChart symbol={selectedSymbol} height={500} />
+          {/* key forces a full remount so TradingView re-initializes instantly */}
+          <TradingViewAdvancedChart key={selectedSymbol} symbol={selectedSymbol} height={500} />
         </div>
       </div>
     </div>
