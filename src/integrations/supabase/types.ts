@@ -61,6 +61,7 @@ export type Database = {
           asset_type: string
           created_at: string
           id: string
+          influence_score: number | null
           name: string
           sector: string | null
           symbol: string
@@ -69,6 +70,7 @@ export type Database = {
           asset_type?: string
           created_at?: string
           id?: string
+          influence_score?: number | null
           name: string
           sector?: string | null
           symbol: string
@@ -77,6 +79,7 @@ export type Database = {
           asset_type?: string
           created_at?: string
           id?: string
+          influence_score?: number | null
           name?: string
           sector?: string | null
           symbol?: string
