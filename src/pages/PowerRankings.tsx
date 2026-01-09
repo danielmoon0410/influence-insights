@@ -102,8 +102,8 @@ const PowerRankings = () => {
             <h1 className="text-4xl font-bold mb-3">
               Power <span className="text-gradient-primary">Rankings</span>
             </h1>
-            <p className="text-muted-foreground max-w-2xl">
-              Track the most influential people and assets shaping global markets, ranked by our AI-driven influence algorithm with time decay.
+            <p className="text-muted-foreground max-w-4xl">
+              Real-time rankings of people and assets driving market influence.
             </p>
           </div>
           <Button
